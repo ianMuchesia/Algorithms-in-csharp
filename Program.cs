@@ -7,10 +7,10 @@ using System.Security.Cryptography.X509Certificates;
 using DataStructuresAlgorithms.BinarySearch;
 using DataStructuresAlgorithms.Graphs;
 using DataStructuresAlgorithms.Hashmaps;
-using DataStructuresAlgorithms.location;
 using DataStructuresAlgorithms.Prefix;
 using DataStructuresAlgorithms.Revision;
 using DataStructuresAlgorithms.SlidingWindow;
+using DataStructuresAlgorithms.SubArrays;
 
 
 class Program
@@ -101,7 +101,7 @@ class Program
         //    Console.WriteLine(slidingWindow.NumberOfArithmeticSlices([1,2,3,4]));
 
 
-        var prefix = new PrefixSum();
+        //var prefix = new PrefixSum();
 
         //Console.WriteLine(prefix.RunningSum([1,2,3,4]));
 
@@ -109,7 +109,20 @@ class Program
 
         //Console.WriteLine(prefix.BinaryNumSubarraysWithSum([1,0,1,0,1],2));
 
-        Console.WriteLine(slidingWindow.MaxSubarrayLength([2,2,3],1));
+        //Console.WriteLine(slidingWindow.MaxSubarrayLength([2,2,3],1));
+
+
+        var subarrays = new SubArrays();
+
+        //Console.WriteLine(slidingWindow.CheckInclusion("ab","eidbaooo"));
+        // Console.WriteLine(subarrays.IsSubsequence("b","abc"));
+
+        // Console.WriteLine(subarrays.MinSubArrayLen(7,[2,3,1,2,4,3]));
+
+        //Console.WriteLine(subarrays.NumSubarrayProductLessThanK([10,9,10,4,3,8,3,3,6,2,10,10,9,3],19));
+
+        //Console.WriteLine(slidingWindow.LongestOnes([0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1],3));
+        Console.WriteLine(slidingWindow.LongestSubarray([1,1,1,0,0,0,1,1,1,0,1,1,0,0,1,1,1,1,1,1]));
 
     }
 }
