@@ -406,16 +406,16 @@ namespace DataStructuresAlgorithms.SlidingWindow
 
             int left = 0;
 
-            for(int right=0; right<nums.Length;right++)
+            for (int right = 0; right < nums.Length; right++)
             {
 
-                if(nums[right] == 0)
+                if (nums[right] == 0)
                 {
                     countZero++;
                 }
-                if(countZero>1)
+                if (countZero > 1)
                 {
-                    if(nums[left] == 0)
+                    if (nums[left] == 0)
                     {
                         countZero--;
                     }
@@ -423,17 +423,211 @@ namespace DataStructuresAlgorithms.SlidingWindow
                     left++;
                 }
 
-                result = Math.Max(result,right-left);
+                result = Math.Max(result, right - left);
             }
-            
-            if(result == nums.Length)
+
+            if (result == nums.Length)
             {
-                return result-1;
+                return result - 1;
             }
 
             return result;
 
         }
+
+        public int MaxVowels(string s, int k)
+        {
+
+            int result = 0;
+
+            var vowels = new HashSet<char> { 'a', 'e', 'i', 'o', 'u' };
+
+            int left = 0;
+
+            int right = 0;
+
+            int vowelsCount = 0;
+            while (right < s.Length)
+            {
+                if (vowels.Contains(s[right]))
+                {
+                    vowelsCount++;
+                }
+
+                if (right - left + 1 >= k)
+                {
+                    result = Math.Max(result, vowelsCount);
+                    if (vowels.Contains(s[left]))
+                    {
+                        vowelsCount--;
+                    }
+                    left++;
+                }
+
+
+                right++;
+            }
+
+
+            return result;
+
+        }
+        public int MaximumUniqueSubarray(int[] nums)
+        {
+            int result = 0;
+
+            int currentSum = 0;
+
+            int left = 0;
+
+            int right = 0;
+
+            var persistence = new HashSet<int>();
+
+            while (right < nums.Length)
+            {
+                currentSum += nums[right];
+                while (persistence.Contains(nums[right]))
+                {
+                    currentSum -= nums[left];
+                    persistence.Remove(nums[left]);
+                    left++;
+
+                }
+
+                persistence.Add(nums[right]);
+
+                result = Math.Max(result, currentSum);
+
+
+                right++;
+            }
+
+            return result;
+        }
+
+
+        public int SubarraysWithKDistinct(int[] nums, int k)
+        {
+            int result = 0;
+
+            var persistence = new Dictionary<int, int>();
+
+            var left = 0;
+
+            int right = 0;
+
+
+            while (right < nums.Length)
+            {
+                if (!persistence.ContainsKey(nums[right]))
+                {
+                    persistence[nums[right]] = 0;
+                }
+
+                persistence[nums[right]] += 1;
+
+                while (persistence.Count() > k)
+                {
+                    persistence[nums[left]]--;
+                    if (persistence[nums[left]] == 0)
+                    {
+                        persistence.Remove(nums[left]);
+                    }
+                    left++;
+                }
+
+
+
+                Console.WriteLine("Result: " + result);
+
+                right++;
+            }
+
+            return result;
+
+        }
+
+
+        public int TotalFruit(int[] fruits)
+        {
+
+            int result = 0;
+
+
+
+            var persistence = new Dictionary<int, int>();
+
+            int left = 0;
+
+            int right = 0;
+
+            while (right < fruits.Length)
+            {
+                if (!persistence.ContainsKey(fruits[right]))
+                {
+                    persistence[fruits[right]] = 0;
+                }
+
+                persistence[fruits[right]] += 1;
+
+                while (persistence.Count() > 2)
+                {
+                    persistence[fruits[left]] -= 1;
+                    if (persistence[fruits[left]] == 0)
+                    {
+                        persistence.Remove(fruits[left]);
+                    }
+                    left++;
+                }
+
+                result = Math.Max(result, right - left + 1);
+
+                right++;
+            }
+
+
+            return result;
+
+        }
+
+        //hard questions
+        public string MinWindow(string s, string t)
+        {
+
+            int minimumWindow = int.MaxValue;
+
+            var validDict = new Dictionary<char, int>();
+
+
+            foreach (var item in t)
+            {
+                if (!validDict.ContainsKey(item))
+                {
+                    validDict[item] = 1;
+                }
+                validDict[item] += 1;
+            }
+
+
+            var left = 0;
+
+            var right = 0;
+
+
+            return "";
+
+
+
+
+        }
+
+        private bool validMindWindwow(int left, int right)
+        {
+
+            return true;
+        }
+
 
     }
 

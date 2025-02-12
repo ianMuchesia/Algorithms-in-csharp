@@ -10,6 +10,7 @@ using DataStructuresAlgorithms.Hashmaps;
 using DataStructuresAlgorithms.Prefix;
 using DataStructuresAlgorithms.Revision;
 using DataStructuresAlgorithms.SlidingWindow;
+using DataStructuresAlgorithms.Stack;
 using DataStructuresAlgorithms.SubArrays;
 
 
@@ -122,7 +123,33 @@ class Program
         //Console.WriteLine(subarrays.NumSubarrayProductLessThanK([10,9,10,4,3,8,3,3,6,2,10,10,9,3],19));
 
         //Console.WriteLine(slidingWindow.LongestOnes([0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1],3));
-        Console.WriteLine(slidingWindow.LongestSubarray([1,1,1,0,0,0,1,1,1,0,1,1,0,0,1,1,1,1,1,1]));
+        //Console.WriteLine(slidingWindow.LongestSubarray([1,1,1,0,0,0,1,1,1,0,1,1,0,0,1,1,1,1,1,1]));
+
+        //Console.WriteLine(slidingWindow.MaximumUniqueSubarray([4,2,4,5,6]));
+
+        //Console.WriteLine(slidingWindow.SubarraysWithKDistinct([1,2,1,3,4],3));
+
+        //Console.WriteLine(slidingWindow.TotalFruit([1,2,1]));
+
+
+        var stack = new Stack();
+
+        // Console.WriteLine(stack.IsValid("([])"));
+
+        var minStack = new MinStack();
+
+        var queueStack = new MyQueue();
+
+        // queueStack.Push(1);
+        // queueStack.Pop();
+        // queueStack.Empty();
+
+        // Console.WriteLine(stack.BackspaceCompare("a##c","#a#c"));
+        Console.WriteLine(stack.DailyTemperatures([30,60,90]
+));
+
+       
+
 
     }
 }

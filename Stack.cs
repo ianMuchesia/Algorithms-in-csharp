@@ -1,4 +1,4 @@
-public class Stack
+public class Stacks
 {
 
     static readonly int MAX = 5000;
@@ -13,7 +13,7 @@ public class Stack
         return (top < 0);
     }
 
-    public Stack()
+    public Stacks()
     {
         top = -1;
     }
