@@ -86,19 +86,19 @@ class Program
 
         LeetCodeHashmaps hashmaps = new LeetCodeHashmaps();
 
-       // Console.WriteLine(hashmaps.LengthOfLongestSubstring("abcabcbb"));
+        // Console.WriteLine(hashmaps.LengthOfLongestSubstring("abcabcbb"));
         //Console.WriteLine(hashmaps.FindRepeatedDnaSequences2("AAAAAAAAAAA"));
-       // Console.WriteLine(hashmaps.MinSubArrayLen(4,[1,4,4]));
+        // Console.WriteLine(hashmaps.MinSubArrayLen(4,[1,4,4]));
 
 
-        TwoSum twoSum = new TwoSum([2,7,11,15],9);
+        TwoSum twoSum = new TwoSum([2, 7, 11, 15], 9);
 
         SlidingWindow slidingWindow = new SlidingWindow();
 
 
         //Console.WriteLine(slidingWindow.LongestSubstring2("ababbc",2));
 
-       // Console.WriteLine(slidingWindow.NumberOfArithmeticSlices([1,2,3,4,7,9,1,8,3,4,5,6,1,4,5,6]));
+        // Console.WriteLine(slidingWindow.NumberOfArithmeticSlices([1,2,3,4,7,9,1,8,3,4,5,6,1,4,5,6]));
         //    Console.WriteLine(slidingWindow.NumberOfArithmeticSlices([1,2,3,4]));
 
 
@@ -145,10 +145,18 @@ class Program
         // queueStack.Empty();
 
         // Console.WriteLine(stack.BackspaceCompare("a##c","#a#c"));
-        Console.WriteLine(stack.DailyTemperatures([30,60,90]
-));
+        //Console.WriteLine(stack.DailyTemperatures2( [30,40,50,60]));
 
-       
+        StockSpanner stockSpanner = new StockSpanner();
+        stockSpanner.Next(100); // return 1
+        stockSpanner.Next(80);  // return 1
+        stockSpanner.Next(60);  // return 1
+        stockSpanner.Next(70);  // return 2
+        stockSpanner.Next(60);  // return 1
+        stockSpanner.Next(75);  // return 4, because the last 4 prices (including today's price of 75) were less than or equal to today's price.
+        stockSpanner.Next(85);  // return 6
+
+
 
 
     }

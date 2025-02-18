@@ -2,6 +2,7 @@
 
 
 
+using System.Collections;
 using System.Globalization;
 
 namespace DataStructuresAlgorithms.Stack
@@ -244,22 +245,37 @@ namespace DataStructuresAlgorithms.Stack
 
         }
 
-        public int[] DailyTemperatures(int[] temperatures)
+        public int[] DailyTemperatures2(int[] temperatures)
         {
             var result = new int[temperatures.Length];
 
-            var stack = new List<int>();
+            var stack = new List<List<int>>();
 
-            for(int i=0;i<temperatures.Length;i++)
+
+            for (int i = 0; i < temperatures.Length; i++)
             {
-                while(stack.Count > 0 && temperatures[i] > stack[stack.Count-1])
+                while (stack.Count >= 1 && temperatures[i] > stack[stack.Count - 1][0])
                 {
-                    var tempStack = stack[stack.Count - 1];
-                    
+                    var lastIndex = stack.Count - 1;
+
+                    var lastItem = stack[lastIndex];
+                    Console.WriteLine("This is the last item in stack" + string.Join(",", lastItem));
+
+                    var indexDifference = i - lastItem[1];
+                    result[lastItem[1]] = indexDifference;
+                    stack.RemoveAt(lastIndex);
+
+
                 }
+                stack.Add([temperatures[i], i]);
             }
 
+            Console.WriteLine(string.Join(",", result));
+            return result;
+
         }
+
+
 
 
 
@@ -402,6 +418,33 @@ namespace DataStructuresAlgorithms.Stack
         public bool Empty()
         {
             return inputStack.Count == 0 && outputStack.Count == 0;
+        }
+    }
+
+
+    public class StockSpanner
+    {
+
+        private List<int> monotonicStack;
+        public StockSpanner()
+        {
+            monotonicStack = new List<int>();
+        }
+
+        public int Next(int price)
+        {
+            var counter = 1;
+          
+            while(monotonicStack.Count >= 1 && monotonicStack[monotonicStack.Count-1] < price)
+            {
+                var lastIndex = monotonicStack.Count - 1;
+                monotonicStack.RemoveAt(lastIndex);
+                counter++;
+            }
+
+            monotonicStack.Add(price);
+
+            return counter;
         }
     }
 
