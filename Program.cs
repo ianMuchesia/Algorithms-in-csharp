@@ -147,14 +147,23 @@ class Program
         // Console.WriteLine(stack.BackspaceCompare("a##c","#a#c"));
         //Console.WriteLine(stack.DailyTemperatures2( [30,40,50,60]));
 
-        StockSpanner stockSpanner = new StockSpanner();
-        stockSpanner.Next(100); // return 1
-        stockSpanner.Next(80);  // return 1
-        stockSpanner.Next(60);  // return 1
-        stockSpanner.Next(70);  // return 2
-        stockSpanner.Next(60);  // return 1
-        stockSpanner.Next(75);  // return 4, because the last 4 prices (including today's price of 75) were less than or equal to today's price.
-        stockSpanner.Next(85);  // return 6
+        // StockSpanner stockSpanner = new StockSpanner();
+        // stockSpanner.Next(28); // return 1
+        // stockSpanner.Next(14);  // return 1
+        // stockSpanner.Next(28);  // return 1
+        // stockSpanner.Next(35);  // return 2
+        // stockSpanner.Next(60);  // return 1
+        // stockSpanner.Next(75);  // return 4, because the last 4 prices (including today's price of 75) were less than or equal to today's price.
+        // stockSpanner.Next(85);  // return 6
+
+        // Console.WriteLine(stack.NextGreaterElement([1,3,5,2,4],[6,5,4,3,2,1,7]));
+
+        var stackSolution = new StackSolution();
+
+       // Console.WriteLine(stackSolution.ValidateStackSequences([1,2,3,4,5],[4,5,3,2,1]));
+        // Console.WriteLine(stackSolution.DecodeString3("3[a]2[bc]"));
+        //Console.WriteLine(stackSolution.CountOfAtoms("H20"));
+        Console.WriteLine(stackSolution.SimplifyPath("/home/user/Documents///../Pictures"));
 
 
 

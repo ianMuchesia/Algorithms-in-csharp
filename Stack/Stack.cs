@@ -276,6 +276,80 @@ namespace DataStructuresAlgorithms.Stack
         }
 
 
+        public int[] NextGreaterElement(int[] nums1, int[] nums2)
+        {
+            var result = new int[nums1.Length];
+
+            var hashmaps = new Dictionary<int, int>();
+
+            var monotonicStack = new List<int>();
+
+            for (int i = 0; i < nums2.Length; i++)
+            {
+                while (monotonicStack.Count >= 1 && monotonicStack[monotonicStack.Count - 1] < nums2[i])
+                {
+                    var lastNum = monotonicStack[monotonicStack.Count - 1];
+                    hashmaps[lastNum] = nums2[i];
+                    monotonicStack.RemoveAt(monotonicStack.Count - 1);
+
+                }
+
+
+                hashmaps.Add(nums2[i], -1);
+                monotonicStack.Add(nums2[i]);
+            }
+
+            for (int i = 0; i < nums1.Length; i++)
+            {
+                result[i] = hashmaps[nums1[i]];
+            }
+
+            Console.WriteLine(string.Join(",", result));
+
+            return result;
+        }
+
+        public int[] NextGreaterElement2(int[] nums1, int[] nums2)
+        {
+            var result = new int[nums1.Length];
+
+            var hashmaps = new Dictionary<int, int>();
+
+            var monotonicStack = new List<int>();
+
+            for (int i = 0; i < nums2.Length; i++)
+            {
+                while (monotonicStack.Count >= 1 && monotonicStack[monotonicStack.Count - 1] < nums2[i])
+                {
+                    var lastNum = monotonicStack[monotonicStack.Count - 1];
+                    hashmaps[lastNum] = nums2[i];
+                    monotonicStack.RemoveAt(monotonicStack.Count - 1);
+
+                }
+
+
+                hashmaps.Add(nums2[i], -1);
+                monotonicStack.Add(nums2[i]);
+            }
+
+            for (int i = 0; i < nums1.Length; i++)
+            {
+                result[i] = hashmaps[nums1[i]];
+            }
+
+            Console.WriteLine(string.Join(",", result));
+
+            return result;
+        }
+
+
+
+    
+
+
+
+
+
 
 
 
@@ -425,25 +499,28 @@ namespace DataStructuresAlgorithms.Stack
     public class StockSpanner
     {
 
-        private List<int> monotonicStack;
+        private List<List<int>> monotonicStack;
         public StockSpanner()
         {
-            monotonicStack = new List<int>();
+            monotonicStack = new List<List<int>>();
         }
 
         public int Next(int price)
         {
             var counter = 1;
-          
-            while(monotonicStack.Count >= 1 && monotonicStack[monotonicStack.Count-1] < price)
+
+            while (monotonicStack.Count >= 1 && monotonicStack[monotonicStack.Count - 1][0] <= price)
             {
                 var lastIndex = monotonicStack.Count - 1;
+                counter += monotonicStack[lastIndex][1];
                 monotonicStack.RemoveAt(lastIndex);
-                counter++;
+
             }
 
-            monotonicStack.Add(price);
+            monotonicStack.Add([price, counter]);
 
+
+            Console.WriteLine(counter);
             return counter;
         }
     }
