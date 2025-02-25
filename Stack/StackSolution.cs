@@ -209,14 +209,14 @@ namespace DataStructuresAlgorithms.Stack
                     }
 
                     var currentDots = 0;
-                    while(stack.Count > 0 && stack[^1]== '.')
+                    while (stack.Count > 0 && stack[^1] == '.')
                     {
                         currentDots += 1;
                         stack.RemoveAt(stack.Count - 1);
 
                     }
 
-                    
+
                 }
                 stack.Add(c);
 
@@ -230,6 +230,68 @@ namespace DataStructuresAlgorithms.Stack
 
 
             return string.Join("", stack);
+
+        }
+        public string RemoveStars(string s)
+        {
+            var substr = new StringBuilder();
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                Console.WriteLine(substr);
+                if (s[i] == '*')
+                {
+                    substr.Remove(substr.Length - 1, 1);
+                }
+                else
+                {
+                    substr.Append(s[i]);
+                }
+            }
+
+
+            return substr.ToString();
+
+
+
+        }
+
+        public int[] AsteroidCollision(int[] asteroids)
+        {
+            var stack = new List<int>();
+
+            foreach (var ast in asteroids)
+            {
+                var num = ast;
+                while (stack.Count > 0 && num < 0 && stack[^1] > 0)
+                {
+                    var currentDiff = num + stack[^1];
+
+                    if (currentDiff < 0)
+                    {
+                        stack.RemoveAt(stack.Count - 1);
+                    }
+                    else if (currentDiff == 0)
+                    {
+                        stack.RemoveAt(stack.Count - 1);
+                        num = 0;
+                    }
+                    else
+                    {
+                        num = 0;
+                        break;
+                    }
+                }
+
+                if(num != 0)
+                {
+                    stack.Add(ast);
+                }
+            }
+
+            Console.WriteLine(string.Join(",", stack));
+
+            return [.. stack];
 
         }
     }
