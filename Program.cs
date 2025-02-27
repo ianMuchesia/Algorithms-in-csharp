@@ -163,9 +163,10 @@ class Program
        // Console.WriteLine(stackSolution.ValidateStackSequences([1,2,3,4,5],[4,5,3,2,1]));
         // Console.WriteLine(stackSolution.DecodeString3("3[a]2[bc]"));
         //Console.WriteLine(stackSolution.CountOfAtoms("H20"));
-        //Console.WriteLine(stackSolution.SimplifyPath("/home/user/Documents///../Pictures"));
+        //Console.WriteLine(stackSolution.SimplifyPath3("/../"));
        // Console.WriteLine(stackSolution.RemoveStars("erase*****"));
-       Console.WriteLine(stackSolution.AsteroidCollision([10,2,-5]));
+      // Console.WriteLine(stackSolution.AsteroidCollision([10,2,-5]));
+      Console.WriteLine(stackSolution.EvalRPN(["10","6","9","3","+","-11","*","/","*","17","+","5","+"]));
 
 
 

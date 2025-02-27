@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Globalization;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Transactions;
 
@@ -199,27 +201,80 @@ namespace DataStructuresAlgorithms.Stack
 
             var stack = new List<char>();
 
+            var currentDotNumber = 0;
+            var characterCount = 0;
+
             foreach (char c in path)
             {
-                if (c == '/')
+                if (c == '/' && stack.Count > 0)
                 {
-                    while (stack.Count > 0 && stack[^1] == '/')
+                    Console.WriteLine(characterCount);
+                    var slashCount = 0;
+
+                    while (currentDotNumber == 2 && slashCount < 2 && stack.Count > 1 && characterCount == 2)
+                    {
+                        stack.RemoveAt(stack.Count - 1);
+                        if (stack[^1] == '/')
+                        {
+                            slashCount++;
+                        }
+
+                    }
+
+
+                    if (currentDotNumber == 1 && characterCount == 1)
                     {
                         stack.RemoveAt(stack.Count - 1);
                     }
 
-                    var currentDots = 0;
-                    while (stack.Count > 0 && stack[^1] == '.')
+                    if (stack[^1] == '/' && stack.Count > 0)
                     {
-                        currentDots += 1;
                         stack.RemoveAt(stack.Count - 1);
-
                     }
+
+                    currentDotNumber = 0;
+                    characterCount = 0;
+
 
 
                 }
+
+                if (c != '/')
+
+                {
+                    characterCount++;
+
+                }
+
+                if (c == '.')
+                {
+                    currentDotNumber += 1;
+                }
+
+
                 stack.Add(c);
 
+
+            }
+
+            if (stack.Count > 1 && stack[^1] == '.')
+            {
+                var slashCount2 = 0;
+                while (currentDotNumber == 2 && slashCount2 < 2 && stack.Count > 1)
+                {
+
+                    stack.RemoveAt(stack.Count - 1);
+                    if (stack[^1] == '/')
+                    {
+                        slashCount2++;
+                    }
+
+                }
+
+                if (stack.Count > 1 && currentDotNumber == 1)
+                {
+                    stack.RemoveAt(stack.Count - 1);
+                }
             }
 
             while (stack.Count > 1 && stack[^1] == '/')
@@ -229,9 +284,86 @@ namespace DataStructuresAlgorithms.Stack
 
 
 
+
             return string.Join("", stack);
 
         }
+
+
+        public string SimplifyPath2(string path)
+        {
+            var stack = new List<string>();
+            var stringItem = new StringBuilder();
+
+
+            foreach (char c in path)
+            {
+                if (c == '/')
+                {
+                    if (stringItem.ToString() == ".." && stack.Count > 0)
+                    {
+                        stack.RemoveAt(stack.Count - 1);
+
+
+                    }
+                    else if (stringItem.ToString() != string.Empty && stringItem.ToString() != "." && stringItem.ToString() != "..")
+                    {
+                        Console.WriteLine("This is the string: " + stringItem.ToString());
+                        stack.Add(stringItem.ToString());
+                    }
+
+                    stringItem.Clear();
+                }
+                else
+                {
+                    stringItem.Append(c);
+                }
+
+
+            }
+
+            if (stringItem.ToString() == ".." && stack.Count > 0)
+            {
+                stack.RemoveAt(stack.Count - 1);
+                stringItem.Clear();
+
+            }
+            else if (stringItem.ToString() != string.Empty && stringItem.ToString() != "." && stringItem.ToString() != "..")
+            {
+                Console.WriteLine("This is the string: " + stringItem.ToString());
+                stack.Add(stringItem.ToString());
+            }
+
+
+
+
+            return "/" + string.Join("/", stack);
+
+        }
+
+
+        public string SimplifyPath3(string path)
+        {
+            var stack = new List<string>();
+
+            foreach (var dir in path.Split('/'))
+            {
+                if (dir == "..")
+                {
+                    if (stack.Count > 0) stack.RemoveAt(stack.Count - 1); // Go back one level
+                }
+                else if (dir.Length > 0 && dir != ".")
+                {
+                    stack.Add(dir); // Add valid directory
+                }
+
+
+            }
+
+            return "/" + string.Join("/", stack);
+        }
+
+
         public string RemoveStars(string s)
         {
             var substr = new StringBuilder();
@@ -283,7 +415,7 @@ namespace DataStructuresAlgorithms.Stack
                     }
                 }
 
-                if(num != 0)
+                if (num != 0)
                 {
                     stack.Add(ast);
                 }
@@ -293,6 +425,48 @@ namespace DataStructuresAlgorithms.Stack
 
             return [.. stack];
 
+        }
+
+
+        public int EvalRPN(string[] tokens)
+        {
+
+            var stack = new List<int>();
+
+            foreach (var c in tokens)
+            {
+                if (int.TryParse(c, out int result))
+                {
+                    stack.Add(result);
+                }
+                else
+                {
+                    result = EvaluateForRPN(stack[^2],stack[^1], c);
+                    stack.RemoveAt(stack.Count - 1);
+                    stack.RemoveAt(stack.Count - 1);
+                    stack.Add(result);
+                }
+
+
+            }
+
+            return stack[^1];
+
+        }
+
+        private int EvaluateForRPN(int firstNumber,int secondNumber, string operation)
+        {
+           
+
+            
+            return operation switch
+            {
+                "+" => firstNumber + secondNumber,
+                "-" => firstNumber - secondNumber,
+                "/" => firstNumber / secondNumber,
+                "*" => firstNumber * secondNumber,
+                _ => 0,
+            };
         }
     }
 }
