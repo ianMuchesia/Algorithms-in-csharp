@@ -12,6 +12,7 @@ using DataStructuresAlgorithms.Revision;
 using DataStructuresAlgorithms.SlidingWindow;
 using DataStructuresAlgorithms.Stack;
 using DataStructuresAlgorithms.SubArrays;
+using DataStructuresAlgorithms.Trees;
 
 
 class Program
@@ -160,13 +161,65 @@ class Program
 
         var stackSolution = new StackSolution();
 
-       // Console.WriteLine(stackSolution.ValidateStackSequences([1,2,3,4,5],[4,5,3,2,1]));
+        // Console.WriteLine(stackSolution.ValidateStackSequences([1,2,3,4,5],[4,5,3,2,1]));
         // Console.WriteLine(stackSolution.DecodeString3("3[a]2[bc]"));
         //Console.WriteLine(stackSolution.CountOfAtoms("H20"));
         //Console.WriteLine(stackSolution.SimplifyPath3("/../"));
-       // Console.WriteLine(stackSolution.RemoveStars("erase*****"));
-      // Console.WriteLine(stackSolution.AsteroidCollision([10,2,-5]));
-      Console.WriteLine(stackSolution.EvalRPN(["10","6","9","3","+","-11","*","/","*","17","+","5","+"]));
+        // Console.WriteLine(stackSolution.RemoveStars("erase*****"));
+        // Console.WriteLine(stackSolution.AsteroidCollision([10,2,-5]));
+        //Console.WriteLine(stackSolution.EvalRPN(["10","6","9","3","+","-11","*","/","*","17","+","5","+"]));
+
+        // Console.WriteLine(hashmaps.IntToRoman(3749));
+
+        var bst = new BinarySearchTree();
+
+        // Console.WriteLine("The tree is empty " + bst.IsEmpty());
+
+
+        // bst.Insert(10);
+        // bst.Insert(5);
+        // bst.Insert(15);
+        // bst.Insert(3);
+        // bst.Insert(30);
+        // bst.Insert(7);
+
+        // //console.log("it does exist?:", bst.search(bst.root,3))
+        // BinarySearchTree.PreOrder(bst.Root);
+
+        // BinarySearchTree.PostOrder(bst.Root);
+
+
+        var root = new TreeNode2(0);
+        var node2 = new TreeNode2(2);
+        // var node3 = new TreeNode2(3);
+        // var node4 = new TreeNode2(4);
+        // var node5 = new TreeNode2(5);
+        // var node6 = new TreeNode2(6);
+        // var node7 = new TreeNode2(7);
+
+        // // Level 1
+        // root.left = node2;
+        // root.right = node3;
+
+        // // Level 2
+        // node2.left = node4;
+        // // node2.right = null;
+        // node3.left = node5;
+        // node3.right = node6;
+
+        // // Level 3
+        // // node5.left = null;
+        // // node5.right = null;
+        // node6.left = node7;
+        // // node6.right = null;
+
+
+
+        var treesln = new TreeSolutions();
+
+        //treesln.MinDepth(treeNode1);
+        Console.WriteLine(treesln.FindBottomLeftValue(root));
+
 
 
 

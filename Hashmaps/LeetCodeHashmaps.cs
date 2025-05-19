@@ -3,6 +3,7 @@
 using System.ComponentModel;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace DataStructuresAlgorithms.Hashmaps
 {
@@ -189,23 +190,23 @@ namespace DataStructuresAlgorithms.Hashmaps
 
 
 
-            for(int i= 0;i<nums.Length;i++)
+            for (int i = 0; i < nums.Length; i++)
             {
                 currentSum = currentSum + nums[i];
                 Console.WriteLine(currentSum);
 
-                if(currentSum >= target)
+                if (currentSum >= target)
                 {
-                    currentLength = i -currentLength;
+                    currentLength = i - currentLength;
 
-                    result = Math.Min(result,currentLength);
+                    result = Math.Min(result, currentLength);
 
-                   
+
                     currentSum = 0;
                 }
             }
 
-            if(result == int.MaxValue) return 0;
+            if (result == int.MaxValue) return 0;
             return result;
 
         }
@@ -218,6 +219,37 @@ namespace DataStructuresAlgorithms.Hashmaps
         // public bool IsAnagram(string s, string t)
         // {
 
+
+        public string IntToRoman(int num)
+        {
+            Dictionary<int,string> romans = new Dictionary<int, string>
+            {
+               {  1,   "1"},
+               {4,"IV"},
+               {5,"V"},
+               {9,"IX"},
+               {10,"X"},
+               {40,"XL"},
+               {50,"L"},
+               {90,"XC"},
+               {100,"C"},
+               {400,"CD"},
+               {500,"D"},
+               {900,"CM"},
+               {1000,"M"}    
+  
+            };
+
+            var ouptut = new StringBuilder();
+
+            int length = num.ToString().Length;
+
+            
+
+            return "";
+
+
+        }
 
 
 
