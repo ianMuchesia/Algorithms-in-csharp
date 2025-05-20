@@ -4,6 +4,7 @@
 
 using System.ComponentModel.Design.Serialization;
 using System.Runtime.CompilerServices;
+using System.Xml.Schema;
 
 namespace DataStructuresAlgorithms.Trees;
 
@@ -289,7 +290,7 @@ public class TreeSolutions
 
         {
             return root.val;
-         }
+        }
 
         var dict = new Dictionary<int, int>();
         void Helper(TreeNode2? node, bool leftSide, int count)
@@ -346,6 +347,213 @@ public class TreeSolutions
         return 1;
 
     }
+
+    public int FindBottomLeftValue2(TreeNode2 root)
+    {
+        Queue<TreeNode2> queue = new Queue<TreeNode2>();
+        queue.Enqueue(root);
+        int leftMost = root.val;
+
+        while (queue.Count > 0)
+        {
+            int levelSize = queue.Count;
+            for (int i = 0; i < levelSize; i++)
+            {
+                TreeNode2 current = queue.Dequeue();
+
+                // The first node at this level is the leftmost
+                if (i == 0)
+                {
+                    Console.WriteLine("The value of i is: " + i);
+                    leftMost = current.val;
+                    Console.WriteLine("The leftmost value is :" + leftMost);
+                }
+
+                if (current.left != null)
+                    queue.Enqueue(current.left);
+
+                if (current.right != null)
+                    queue.Enqueue(current.right);
+            }
+        }
+        Console.WriteLine("The leftmost final value is: " + leftMost);
+        return leftMost;
+    }
+
+    public IList<IList<int>> LevelOrder(TreeNode2 root)
+    {
+
+        var queue = new Queue<TreeNode2>();
+
+        IList<IList<int>> results = [];
+
+        queue.Enqueue(root);
+        results.Add([root.val]);
+
+        while (queue.Count > 0)
+        {
+            int levelSize = queue.Count;
+
+            Console.WriteLine("This is the level size: " + levelSize);
+
+            IList<int> currentList = [];
+
+            for (int i = 0; i < levelSize; i++)
+            {
+                var current = queue.Dequeue();
+
+                if (current.left != null)
+                {
+                    queue.Enqueue(current.left);
+                }
+
+                if (current.right != null)
+                {
+                    queue.Enqueue(current.right);
+                }
+
+                currentList.Add(current.val);
+
+
+            }
+            results.Add(currentList);
+        }
+
+        foreach (var arr in results)
+        {
+            Console.WriteLine(string.Join("", arr));
+        }
+        return results;
+
+    }
+
+    public IList<IList<int>> ZigzagLevelOrder(TreeNode2 root)
+    {
+        var queue = new Queue<TreeNode2>();
+
+        IList<IList<int>> results = [];
+
+        queue.Enqueue(root);
+        results.Add([root.val]);
+
+        bool IsLeft = true;
+
+        while (queue.Count > 0)
+        {
+            int levelSize = queue.Count;
+
+            Console.WriteLine("This is the level size: " + levelSize);
+            Console.WriteLine("Our Direction left to right: " + IsLeft);
+
+            IList<int> currentList = new List<int>();
+
+            for (int i = 0; i < levelSize; i++)
+            {
+                var current = queue.Dequeue();
+
+                if (current.left != null)
+                {
+                    queue.Enqueue(current.left);
+                }
+
+                if (current.right != null)
+                {
+                    queue.Enqueue(current.right);
+                }
+
+                currentList.Add(current.val);
+
+
+            }
+
+            IList<int> tempInts = [];
+            if (!IsLeft)
+            {
+                while (currentList.Count > 0)
+                {
+                    tempInts.Add(currentList[^1]);
+                    currentList.RemoveAt(currentList.Count - 1);
+                }
+                Console.WriteLine("This is temp ints: " + string.Join(",", tempInts));
+                results.Add(tempInts);
+
+
+
+            }
+            else
+            {
+                results.Add(currentList);
+            }
+            IsLeft = !IsLeft;
+
+        }
+
+        foreach (var arr in results)
+        {
+            Console.WriteLine(string.Join("", arr));
+        }
+        return results;
+
+    }
+
+
+    public IList<IList<int>> LevelOrderBottom(TreeNode2 root)
+    {
+        var queue = new Queue<TreeNode2>();
+
+        IList<IList<int>> results = [];
+
+        queue.Enqueue(root);
+        results.Add([root.val]);
+
+        while (queue.Count > 0)
+        {
+            int levelSize = queue.Count;
+
+            Console.WriteLine("This is the level size: " + levelSize);
+
+            IList<int> currentList = [];
+
+            for (int i = 0; i < levelSize; i++)
+            {
+                var current = queue.Dequeue();
+
+                if (current.left != null)
+                {
+                    queue.Enqueue(current.left);
+                }
+
+                if (current.right != null)
+                {
+                    queue.Enqueue(current.right);
+                }
+
+                currentList.Add(current.val);
+
+
+            }
+            results.Add(currentList);
+        }
+
+
+        IList<IList<int>> tempInts = [];
+
+        while (results.Count > 0)
+        {
+            tempInts.Add(results[^1]);
+            results.RemoveAt(results.Count - 1);
+        }
+        Console.WriteLine("This is temp ints: " + string.Join(",", tempInts));
+
+
+
+        foreach (var arr in tempInts)
+        {
+            Console.WriteLine(string.Join("", arr));
+        }
+        return results;
+    }
+
 
 
 

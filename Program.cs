@@ -189,36 +189,33 @@ class Program
         // BinarySearchTree.PostOrder(bst.Root);
 
 
-        var root = new TreeNode2(0);
+        var root = new TreeNode2(1);
         var node2 = new TreeNode2(2);
-        // var node3 = new TreeNode2(3);
-        // var node4 = new TreeNode2(4);
-        // var node5 = new TreeNode2(5);
-        // var node6 = new TreeNode2(6);
-        // var node7 = new TreeNode2(7);
+        var node3 = new TreeNode2(3);
+        var node4 = new TreeNode2(4);
+        var node5 = new TreeNode2(5);
+        var node6 = new TreeNode2(6);
+        var node7 = new TreeNode2(7);
 
-        // // Level 1
-        // root.left = node2;
-        // root.right = node3;
+        // Level 1
+        root.left = node2;
+        root.right = node3;
 
-        // // Level 2
-        // node2.left = node4;
-        // // node2.right = null;
-        // node3.left = node5;
-        // node3.right = node6;
+        // Level 2
+        node2.left = node4;
+        // node2.right = null;
+        node3.left = node5;
+        node3.right = node6;
 
-        // // Level 3
-        // // node5.left = null;
-        // // node5.right = null;
-        // node6.left = node7;
-        // // node6.right = null;
+        // Level 3
+        node5.left = node7;
 
 
 
         var treesln = new TreeSolutions();
 
         //treesln.MinDepth(treeNode1);
-        Console.WriteLine(treesln.FindBottomLeftValue(root));
+        Console.WriteLine(treesln.LevelOrderBottom(root));
 
 
 
