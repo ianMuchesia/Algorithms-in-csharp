@@ -67,6 +67,11 @@ public class BfsSolution {
                 {
                     queue.Enqueue(current.right);
                 }
+
+                if (current.left != null && current.right != null)
+                {
+                    current.left.next = current.right;
+                }
                 currentList.Add(current);
             }
 
@@ -74,6 +79,8 @@ public class BfsSolution {
             {
                 currentList[midpoint - 1].next = currentList[midpoint];
             }
+
+            currentList[^1].next = null;
 
 
         }

@@ -215,7 +215,12 @@ class Program
         var treesln = new TreeSolutions();
 
         //treesln.MinDepth(treeNode1);
-        Console.WriteLine(treesln.LevelOrderBottom(root));
+        //Console.WriteLine(treesln.LevelOrderBottom(root));
+
+
+        var backtracking = new BacktrackingSolutions();
+
+        Console.WriteLine(backtracking.PermutationOrderMatters([2, 3, 6, 7], 2));
 
 
 

@@ -554,6 +554,37 @@ public class TreeSolutions
         return results;
     }
 
+    public IList<string> BinaryTreePaths(TreeNode2 root)
+    {
+
+
+        IList<string> result = [];
+        void Helper(TreeNode2? root, string str)
+        {
+            if (root == null)
+            {
+                return;
+            }
+
+            if (root.left == null && root.right == null)
+            {
+                var stringMaker = new string(str + root.val);
+                result.Add(stringMaker);
+                return;
+            }
+
+            Helper(root.left, str += $"{root.val}->");
+            Helper(root.left, str += $"{root.val}->");
+        }
+
+        Helper(root.left,$"{root.val}");
+        Helper(root.right,$"{root.val}");
+        return result;
+         
+        
+
+    }
+
 
 
 
