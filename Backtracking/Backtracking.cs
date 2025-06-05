@@ -196,29 +196,34 @@ class BacktrackingSolutions
 
         IList<IList<int>> result = [];
 
-        void BackTrack(int depth,int index, bool skip, IList<int> subset)
+        var set = new HashSet<int>();
+
+        void BackTrack(int depth, IList<int> subset)
         {
 
             if (depth >= k)
             {
-               if(!skip) result.Add([.. subset]);
+                result.Add([.. subset]);
                 return;
             }
 
             for (int i = 0; i < nums.Count; i++)
             {
+                if (set.Contains(i)) continue;
+                set.Add(i);
 
 
                 subset.Add(nums[i]);
-
-                BackTrack(depth + 1, i, index == i, subset);
+                BackTrack(depth + 1, subset);
                 subset.RemoveAt(subset.Count - 1);
-                index++;
+
+                set.Remove(i);
+
             }
 
         }
 
-        BackTrack(0, 0,true, []);
+        BackTrack(0, []);
 
         foreach (var arr in result)
         {
@@ -231,6 +236,126 @@ class BacktrackingSolutions
         return result;
 
 
+    }
+
+
+
+    public IList<IList<int>> PermutationOrderMatterSum(IList<int> nums, int k, int d)
+    {
+
+        IList<IList<int>> result = [];
+
+        var used = new bool[nums.Count];
+
+
+
+        void BackTrack(int sum, IList<int> subset)
+        {
+
+            if (subset.Count >= k)
+            {
+                if (sum % 5 == 0)
+                {
+                    result.Add([.. subset]);
+                }
+                return;
+            }
+
+            for (int i = 0; i < nums.Count; i++)
+            {
+                if (used[i]) continue;
+
+                used[i] = true;
+
+
+                subset.Add(nums[i]);
+                BackTrack(sum += nums[i], subset);
+                subset.RemoveAt(subset.Count - 1);
+                sum -= nums[i];
+
+                used[i] = false;
+
+            }
+
+        }
+
+        BackTrack(0, []);
+
+        foreach (var arr in result)
+        {
+            Console.WriteLine(string.Join(",", arr));
+
+        }
+
+
+
+        return result;
+
+
+    }
+
+
+    public IList<string> LetterCombinations2(string input)
+    {
+        IList<string> result = [];
+
+        var combo = new Dictionary<char, string>
+        {
+            {'2',"abc"},
+            {'3',"def"},
+            {'4', "ghi"},
+            {'5',"jkl"},
+            {'6',"mno"},
+            {'7',"pqrs"},
+            {'8',"tuv"},
+            {'9',"wxyz"},
+
+
+        };
+
+
+        void BackTrack(string currentString, int index)
+        {
+
+            Console.WriteLine(index);
+
+            if (index == input.Length)
+            {
+                result.Add(new string(currentString));
+                return;
+            }
+
+
+
+            foreach (var letter in combo[input[index]])
+            {
+                currentString = currentString + letter;
+
+                BackTrack(currentString, index + 1);
+
+                currentString = currentString.Remove(currentString.Length - 1);
+                
+                Console.WriteLine("currentString: "+currentString );
+
+
+               // currentString.Remove(letter);
+            }
+
+
+        }
+
+        BackTrack("", 0);
+
+        foreach (var arr in result)
+        {
+            Console.WriteLine(string.Join(",", arr));
+
+        }
+
+
+
+
+        return result;
     }
 
 }
