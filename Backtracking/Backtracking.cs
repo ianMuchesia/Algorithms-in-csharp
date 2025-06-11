@@ -196,86 +196,34 @@ class BacktrackingSolutions
 
         IList<IList<int>> result = [];
 
-        void BackTrack(int depth, int index, bool skip, IList<int> subset)
+        var set = new HashSet<int>();
+
+        void BackTrack(int depth, IList<int> subset)
         {
 
             if (depth >= k)
-            {
-                if (!skip) result.Add([.. subset]);
-                return;
-            }
-
-            for (int i = 0; i < nums.Count; i++)
-            {
-
-
-                subset.Add(nums[i]);
-
-                BackTrack(depth + 1, i, index == i, subset);
-                subset.RemoveAt(subset.Count - 1);
-                index++;
-            }
-
-        }
-
-        BackTrack(0, 0, true, []);
-
-        foreach (var arr in result)
-        {
-            Console.WriteLine(string.Join(",", arr));
-
-        }
-
-
-
-        return result;
-
-
-    }
-
-
-    public IList<IList<int>> CombinationSum2(int[] candidates, int target)
-    {
-        IList<IList<int>> result = [];
-
-        Array.Sort(candidates);
-
-
-        void Dfs(int depth, int sum, IList<int> subset)
-        {
-
-            if (sum == target)
             {
                 result.Add([.. subset]);
                 return;
             }
 
-
-            for (int i = depth; i < candidates.Length; i++)
+            for (int i = 0; i < nums.Count; i++)
             {
-
-                if (i > depth && candidates[i] == candidates[i - 1])
-                {
-                    continue;
-                }
-
-                if (sum + candidates[i] > target)
-                {
-                    break;
-                }
+                if (set.Contains(i)) continue;
+                set.Add(i);
 
 
-                subset.Add(candidates[i]);
-                Dfs(depth + 1, sum + candidates[i], subset);
+                subset.Add(nums[i]);
+                BackTrack(depth + 1, subset);
                 subset.RemoveAt(subset.Count - 1);
+
+                set.Remove(i);
 
             }
 
-
-
         }
 
-        Dfs(0, 0, []);
+        BackTrack(0, []);
 
         foreach (var arr in result)
         {
@@ -287,84 +235,125 @@ class BacktrackingSolutions
 
         return result;
 
+
     }
 
-    public IList<IList<int>> SubsetsRetry(int[] nums)
+
+
+    public IList<IList<int>> PermutationOrderMatterSum(IList<int> nums, int k, int d)
     {
+
         IList<IList<int>> result = [];
 
-        void Dfs(int index, IList<int> subset)
+        var used = new bool[nums.Count];
+
+
+
+        void BackTrack(int sum, IList<int> subset)
         {
-            result.Add([.. subset]);
-            if (index >= nums.Length)
+
+            if (subset.Count >= k)
             {
+                if (sum % 5 == 0)
+                {
+                    result.Add([.. subset]);
+                }
                 return;
             }
 
-
-
-            for (int i = index; i < nums.Length; i++)
+            for (int i = 0; i < nums.Count; i++)
             {
+                if (used[i]) continue;
+
+                used[i] = true;
+
+
                 subset.Add(nums[i]);
-                Dfs(i + 1, subset);
+                BackTrack(sum += nums[i], subset);
                 subset.RemoveAt(subset.Count - 1);
+                sum -= nums[i];
+
+                used[i] = false;
 
             }
 
-
-
-
         }
 
-
-        Dfs(0, []);
+        BackTrack(0, []);
 
         foreach (var arr in result)
         {
             Console.WriteLine(string.Join(",", arr));
 
         }
+
 
 
         return result;
+
+
     }
 
-    public IList<IList<int>> SubsetsWithDup(int[] nums)
+
+    public IList<string> LetterCombinations2(string input)
     {
-        IList<IList<int>> result = [];
+        IList<string> result = [];
 
-        Array.Sort(nums);
-
-
-        void Dfs(int index, IList<int> subset)
+        var combo = new Dictionary<char, string>
         {
-            result.Add([.. subset]);
+            {'2',"abc"},
+            {'3',"def"},
+            {'4', "ghi"},
+            {'5',"jkl"},
+            {'6',"mno"},
+            {'7',"pqrs"},
+            {'8',"tuv"},
+            {'9',"wxyz"},
 
-            if (index >= nums.Length)
+
+        };
+
+
+        void BackTrack(string currentString, int index)
+        {
+
+            Console.WriteLine(index);
+
+            if (index == input.Length)
             {
+                result.Add(new string(currentString));
                 return;
             }
 
-            for (int i = index; i < nums.Length; i++)
-            {
-                if (i > index && nums[i] == nums[i - 1])
-                {
-                    continue;
-                }
 
-                subset.Add(nums[i]);
-                Dfs(i + 1, subset);
-                subset.RemoveAt(subset.Count - 1);
+
+            foreach (var letter in combo[input[index]])
+            {
+                currentString = currentString + letter;
+
+                BackTrack(currentString, index + 1);
+
+                currentString = currentString.Remove(currentString.Length - 1);
+                
+                Console.WriteLine("currentString: "+currentString );
+
+
+               // currentString.Remove(letter);
             }
+
 
         }
 
-        Dfs(0, []);
+        BackTrack("", 0);
+
         foreach (var arr in result)
         {
             Console.WriteLine(string.Join(",", arr));
 
         }
+
+
+
 
         return result;
     }
