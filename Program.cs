@@ -220,7 +220,7 @@ class Program
 
         var backtracking = new BacktrackingSolutions();
 
-        Console.WriteLine(backtracking.PermutationOrderMatters([2, 3, 6, 7], 2));
+        Console.WriteLine(backtracking.SubsetsWithDup([1,2,2]));
 
 
 
