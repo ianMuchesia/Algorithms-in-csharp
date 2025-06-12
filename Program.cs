@@ -220,7 +220,7 @@ class Program
 
         var backtracking = new BacktrackingSolutions();
 
-        Console.WriteLine(backtracking.SubsetsWithDup([1,2,2]));
+        Console.WriteLine(backtracking.PermuteUnique([1,1,2]));
 
 
 

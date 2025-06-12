@@ -334,11 +334,11 @@ class BacktrackingSolutions
                 BackTrack(currentString, index + 1);
 
                 currentString = currentString.Remove(currentString.Length - 1);
-                
-                Console.WriteLine("currentString: "+currentString );
+
+                Console.WriteLine("currentString: " + currentString);
 
 
-               // currentString.Remove(letter);
+                // currentString.Remove(letter);
             }
 
 
@@ -355,6 +355,178 @@ class BacktrackingSolutions
 
 
 
+        return result;
+    }
+
+
+    public IList<IList<int>> CombinationSum3(int k, int n)
+    {
+        IList<IList<int>> result = [];
+
+        void Dfs(int index, int depth, int sum, IList<int> subset)
+        {
+            if (sum > n)
+            {
+                return;
+            }
+
+            if (depth == k)
+            {
+                if (sum == n)
+                {
+                    // result.Add([.. subset]);
+                    Console.WriteLine("This is the subset length: " + subset.Count);
+                    result.Add([.. subset]);
+                    Console.WriteLine("This is the sum: " + sum);
+                }
+                // Console.WriteLine("This is the sum: " + sum);
+                //  result.Add([.. subset]);
+                Console.WriteLine("This is the array content: " + string.Join("", subset));
+
+                return;
+            }
+
+            for (int i = index; i < 10; i++)
+            {
+                subset.Add(i);
+
+                // if (sum + i > n)
+                // {
+                //     break;
+                // }
+
+                Dfs(i + 1, depth + 1, sum + i, subset);
+                subset.RemoveAt(subset.Count - 1);
+
+            }
+
+
+
+        }
+        Dfs(1, 0, 0, []);
+
+        foreach (var arr in result)
+        {
+            Console.WriteLine(string.Join(",", arr));
+
+        }
+
+
+
+        return result;
+
+    }
+
+    public int NumTilePossibilities(string tiles)
+    {
+        IList<IList<char>> result = [];
+
+        var seen = new HashSet<int>();
+
+
+        void Dfs(int depth, IList<char> subset)
+        {
+            result.Add([.. subset]);
+            if (depth >= tiles.Length)
+            {
+
+                return;
+            }
+
+            for (int i = 0; i < tiles.Length; i++)
+            {
+                if (seen.Contains(i)) continue;
+                seen.Add(i);
+                subset.Add(tiles[i]);
+                Dfs(depth + 1, subset);
+                subset.RemoveAt(subset.Count - 1);
+                seen.Remove(i);
+            }
+        }
+
+        Dfs(0, []);
+        foreach (var arr in result)
+        {
+            Console.WriteLine(string.Join(",", arr));
+
+        }
+
+
+        return result.Count;
+
+    }
+
+    public IList<IList<int>> Permute(int[] nums)
+    {
+        IList<IList<int>> result = [];
+
+        var used = new bool[nums.Length];
+
+
+        void Dfs(int depth, IList<int> subset)
+        {
+            if (depth >= nums.Length)
+            {
+                result.Add([.. subset]);
+                return;
+            }
+
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (used[i]) continue;
+                used[i] = true;
+                subset.Add(nums[i]);
+                Dfs(depth + 1, subset);
+                subset.RemoveAt(subset.Count - 1);
+                used[i] = false;
+            }
+
+        }
+
+        Dfs(0, []);
+
+        foreach (var arr in result)
+        {
+            Console.WriteLine(string.Join(",", arr));
+        }
+        return result;
+    }
+    public IList<IList<int>> PermuteUnique(int[] nums)
+    {
+         IList<IList<int>> result = [];
+
+        Array.Sort(nums);
+
+        var used = new bool[nums.Length];
+
+
+        void Dfs(int depth, IList<int> subset)
+        {
+            if (depth >= nums.Length)
+            {
+                result.Add([.. subset]);
+                return;
+            }
+
+            for (int i = depth; i < nums.Length; i++)
+            {
+                if (i > 0 && nums[i] == nums[i - 1]) continue;                
+                if (used[i]) continue;
+                used[i] = true;
+                subset.Add(nums[i]);
+                Dfs(depth + 1, subset);
+                subset.RemoveAt(subset.Count - 1);
+                used[i] = false;
+            }
+
+        }
+
+        Dfs(0, []);
+
+        foreach (var arr in result)
+        {
+            Console.WriteLine(string.Join(",", arr));
+        }
         return result;
     }
 
