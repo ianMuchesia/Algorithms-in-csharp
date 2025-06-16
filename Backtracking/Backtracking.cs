@@ -1,6 +1,9 @@
 
 
 
+using System.Reflection.PortableExecutable;
+using System.Text;
+
 class BacktrackingSolutions
 {
     public IList<List<int>> Subsets(IList<int> ints)
@@ -417,44 +420,44 @@ class BacktrackingSolutions
 
     }
 
-    public int NumTilePossibilities(string tiles)
-    {
-        IList<IList<char>> result = [];
+    // public int NumTilePossibilities(string tiles)
+    // {
+    //     IList<IList<char>> result = [];
 
-        var seen = new HashSet<int>();
-
-
-        void Dfs(int depth, IList<char> subset)
-        {
-            result.Add([.. subset]);
-            if (depth >= tiles.Length)
-            {
-
-                return;
-            }
-
-            for (int i = 0; i < tiles.Length; i++)
-            {
-                if (seen.Contains(i)) continue;
-                seen.Add(i);
-                subset.Add(tiles[i]);
-                Dfs(depth + 1, subset);
-                subset.RemoveAt(subset.Count - 1);
-                seen.Remove(i);
-            }
-        }
-
-        Dfs(0, []);
-        foreach (var arr in result)
-        {
-            Console.WriteLine(string.Join(",", arr));
-
-        }
+    //     var seen = new HashSet<int>();
 
 
-        return result.Count;
+    //     void Dfs(int depth, IList<char> subset)
+    //     {
+    //         result.Add([.. subset]);
+    //         if (depth >= tiles.Length)
+    //         {
 
-    }
+    //             return;
+    //         }
+
+    //         for (int i = 0; i < tiles.Length; i++)
+    //         {
+    //             if (seen.Contains(i)) continue;
+    //             seen.Add(i);
+    //             subset.Add(tiles[i]);
+    //             Dfs(depth + 1, subset);
+    //             subset.RemoveAt(subset.Count - 1);
+    //             seen.Remove(i);
+    //         }
+    //     }
+
+    //     Dfs(0, []);
+    //     foreach (var arr in result)
+    //     {
+    //         Console.WriteLine(string.Join(",", arr));
+
+    //     }
+
+
+    //     return result.Count;
+
+    // }
 
     public IList<IList<int>> Permute(int[] nums)
     {
@@ -493,7 +496,7 @@ class BacktrackingSolutions
     }
     public IList<IList<int>> PermuteUnique(int[] nums)
     {
-         IList<IList<int>> result = [];
+        IList<IList<int>> result = [];
 
         Array.Sort(nums);
 
@@ -508,10 +511,15 @@ class BacktrackingSolutions
                 return;
             }
 
-            for (int i = depth; i < nums.Length; i++)
+            for (int i = 0; i < nums.Length; i++)
             {
-                if (i > 0 && nums[i] == nums[i - 1]) continue;                
                 if (used[i]) continue;
+                if (i > 0 && !used[i - 1] && nums[i] == nums[i - 1])
+                {
+                    Console.WriteLine("nums[i] is equals to: " + nums[i] + " and nums[i-1] is: " + nums[i - 1]);
+                    continue;
+                }
+
                 used[i] = true;
                 subset.Add(nums[i]);
                 Dfs(depth + 1, subset);
@@ -529,5 +537,190 @@ class BacktrackingSolutions
         }
         return result;
     }
+
+    public int NumTilePossibilities(string tiles)
+    {
+        IList<IList<char>> result = [];
+
+        var used = new bool[tiles.Length];
+
+        char[] chars = tiles.ToCharArray();
+        Array.Sort(chars);
+        string sorted = new string(chars);
+
+
+        void Dfs(int depth, IList<char> subset)
+        {
+            result.Add([.. subset]);
+            if (depth >= tiles.Length)
+            {
+
+                return;
+            }
+
+            for (int i = 0; i < tiles.Length; i++)
+            {
+                if (used[i]) continue;
+                if (i > 0 && sorted[i] == sorted[i - 1] && !used[i - 1])
+                {
+                    continue;
+                }
+
+
+                used[i] = true;
+                subset.Add(sorted[i]);
+                Dfs(depth + 1, subset);
+
+                subset.RemoveAt(subset.Count - 1);
+                used[i] = false;
+            }
+        }
+
+        Dfs(0, []);
+        foreach (var arr in result)
+        {
+            Console.WriteLine(string.Join(",", arr));
+        }
+
+        return result.Count;
+    }
+
+    public IList<string> LetterCasePermutation(string s)
+    {
+        IList<string> result = [];
+
+        char[] chars = s.ToCharArray();
+
+        var used = new bool[s.Length];
+
+        void Dfs(int depth, char[] subset)
+        {
+            result.Add(new string(subset));
+            if (depth >= s.Length)
+            {   
+                Console.WriteLine();
+                Console.WriteLine("\nThis is the subset on returning: " + string.Join("->", subset));
+                return;
+            }
+
+            for (int i = depth; i < chars.Length; i++)
+            {
+
+
+                if (!char.IsLetter(chars[i]))
+                {
+                    continue;
+                }
+
+
+
+
+                if (char.IsUpper(chars[i]))
+                {
+                    chars[i] = char.ToLower(chars[i]);
+                }
+                else
+                {
+                    chars[i] = char.ToUpper(chars[i]);
+
+                }
+
+                Console.WriteLine("We are at depth:" + (depth + 1) + " and the subset is: " + string.Join("-", subset));
+
+                Dfs(i + 1, subset);
+
+                if (char.IsUpper(chars[i]))
+                {
+                    chars[i] = char.ToLower(chars[i]);
+                }
+                else
+                {
+                    chars[i] = char.ToUpper(chars[i]);
+
+
+
+
+                }
+
+                Console.WriteLine();
+                Console.WriteLine("After Backtracking the string: "+string.Join("--", subset)+" we are at depth: "+depth);
+
+
+            }
+        }
+
+        Dfs(0, chars);
+        foreach (var arr in result)
+        {
+            Console.WriteLine(string.Join(",", arr));
+        }
+
+        return result;
+    }
+
+
+
+    public IList<string> LetterCasePermutation2(string s)
+    {
+        IList<string> result = [];
+
+        char[] chars = s.ToCharArray();
+
+        var used = new bool[s.Length];
+
+        void Dfs(int depth, char[] subset)
+        {
+             result.Add(new string(subset));
+            
+            if (depth >= s.Length)
+            {
+
+                return;
+            }
+
+            for (int i = depth; i < chars.Length; i++)
+            {
+
+                if (!char.IsLetter(chars[i]))
+                {
+                    continue;
+                }
+
+                if (used[i]) continue;
+
+                used[i] = true;
+                if (char.IsUpper(chars[i]))
+                {
+                    chars[i] = char.ToLower(chars[i]);
+                }
+                else
+                {
+                    chars[i] = char.ToUpper(chars[i]);
+
+                }
+
+                Dfs(depth + 1, subset);
+
+                if (char.IsUpper(chars[i]))
+                {
+                    chars[i] = char.ToLower(chars[i]);
+                }
+                else
+                {
+                    chars[i] = char.ToUpper(chars[i]);
+                }
+                used[i] = false;
+            }
+        }
+
+        Dfs(0, chars);
+        foreach (var arr in result)
+        {
+            Console.WriteLine(string.Join(",", arr));
+        }
+
+        return result;
+    }
+
 
 }

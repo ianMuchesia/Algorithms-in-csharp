@@ -220,7 +220,7 @@ class Program
 
         var backtracking = new BacktrackingSolutions();
 
-        Console.WriteLine(backtracking.PermuteUnique([1,1,2]));
+        Console.WriteLine(backtracking.LetterCasePermutation("mQe"));
 
 
 
