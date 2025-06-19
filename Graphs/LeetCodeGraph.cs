@@ -1,6 +1,10 @@
 
 
 
+
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
+
 namespace DataStructuresAlgorithms.Graphs
 {
     public class LeetCodeGraph
@@ -190,9 +194,9 @@ namespace DataStructuresAlgorithms.Graphs
                 adjacencyList[edge[1]].Add(edge[0]);
             }
 
-            foreach(var vertex in adjacencyList)
+            foreach (var vertex in adjacencyList)
             {
-                Console.WriteLine(vertex.Key + "->" + string.Join(",",vertex.Value));
+                Console.WriteLine(vertex.Key + "->" + string.Join(",", vertex.Value));
             }
 
             if (adjacencyList[source].Contains(destination) && adjacencyList[destination].Contains(source))
@@ -204,5 +208,472 @@ namespace DataStructuresAlgorithms.Graphs
 
 
         }
+
+        public int FindJudge2(int n, int[][] trust)
+        {
+
+            Dictionary<int, int> incoming = new Dictionary<int, int>();
+
+            Dictionary<int, int> outgoing = new Dictionary<int, int>();
+
+
+            foreach (var pair in trust)
+            {
+                if (!incoming.ContainsKey(pair[0]))
+                {
+                    incoming[pair[0]] = 0;
+                }
+
+                if (!incoming.ContainsKey(pair[1]))
+                {
+                    incoming[pair[1]] = 1;
+                }
+                else
+                {
+
+                    incoming[pair[1]] += 1;
+                }
+
+
+                if (!outgoing.ContainsKey(pair[0]))
+                {
+                    outgoing[pair[0]] = 1;
+                }
+                else
+                {
+                    outgoing[pair[0]] += 1;
+                }
+
+                if (!outgoing.ContainsKey(pair[1]))
+                {
+                    outgoing[pair[1]] = 0;
+                }
+
+
+            }
+
+            // foreach (var pair in incoming)
+            // {
+            //     Console.WriteLine(string.Join(",", pair));
+            // }
+
+            Console.WriteLine(string.Join(",", incoming));
+            Console.WriteLine(string.Join(",", outgoing));
+
+            return 1;
+
+        }
+
+        public bool ValidPath2(int n, int[][] edges, int source, int destination)
+        {
+
+            Dictionary<int, List<int>> BuildAdjacencyList(int[][] edges)
+            {
+                var adj = new Dictionary<int, List<int>>();
+
+                foreach (var edge in edges)
+                {
+                    if (!adj.ContainsKey(edge[0]))
+                    {
+                        adj[edge[0]] = new List<int>();
+                    }
+
+                    if (!adj.ContainsKey(edge[1]))
+                    {
+                        adj[edge[1]] = new List<int>();
+                    }
+
+
+                    adj[edge[0]].Add(edge[1]);
+                    adj[edge[1]].Add(edge[0]);
+                }
+
+                return adj;
+            }
+
+            var adj = BuildAdjacencyList(edges);
+
+
+            foreach (var pair in BuildAdjacencyList(edges))
+            {
+                Console.WriteLine($"{pair.Key} -> {string.Join("-", pair.Value)}");
+            }
+
+
+            bool BFS(Dictionary<int, List<int>> adj, int source, int destination)
+            {
+                var visited = new HashSet<int>();
+                var queue = new Queue<int>();
+
+                queue.Enqueue(source);
+
+                while (queue.Count > 0)
+                {
+                    Console.WriteLine("These are the contents of the queue: " + string.Join(",", queue));
+
+                    var u = queue.Dequeue();
+                    Console.WriteLine(u);
+
+                    visited.Add(u);
+
+                    if (u == destination)
+                    {
+                        return true;
+                    }
+
+
+                    foreach (var v in adj[u])
+                    {
+                        if (!visited.Contains(v))
+                        {
+                            queue.Enqueue(v);
+                            visited.Add(v);
+                        }
+                    }
+                    Console.WriteLine("The contents of the queue after the loop: " + string.Join(",", queue));
+                    Console.WriteLine("The contents of the visited after the loop: " + string.Join(",", visited));
+                }
+
+                return false;
+            }
+
+            Console.WriteLine("BFS returns: " + BFS(adj, source, destination));
+
+            // Console.WriteLine(string.Join(",", BuildAdjacencyList(edges)));
+
+            bool Dfs(Dictionary<int, List<int>> adj, HashSet<int> visited, int source, int destination)
+            {
+                if (source == destination)
+                {
+                    return true;
+                }
+
+                if (!visited.Contains(source))
+                {
+                    visited.Add(source);
+                    foreach (var v in adj[source])
+                    {
+                        if (Dfs(adj, visited, v, destination))
+                        {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+
+            }
+
+            Dfs(adj, new HashSet<int>(), source, destination);
+            return true;
+        }
+
+        public int[][] FloodFill(int[][] image, int sr, int sc, int color)
+        {
+
+
+
+            var sourceColor = image[sr][sc];
+
+            void Dfs(int r, int c)
+            {
+
+                if (image[r][c] != sourceColor)
+                {
+                    return;
+                }
+                if (image[r][c] == color)
+                {
+                    return;
+                }
+
+                image[r][c] = color;
+
+
+
+                if (r != 0)
+                {
+                    Dfs(r - 1, c);
+                }
+
+                if (c != 0)
+                {
+                    Dfs(r, c - 1);
+                }
+
+
+
+                if (c < image[sr].Length - 1)
+                {
+                    Dfs(r, c + 1);
+                }
+
+                if (r < image.Length - 1)
+                {
+                    Dfs(r + 1, c);
+                }
+
+
+            }
+
+
+            Dfs(sr, sc);
+
+
+            return image;
+
+        }
+
+        public int NumIslands(string[][] grid)
+        {
+            void Dfs(int r, int c)
+            {
+                if (c < 0 || r < 0 || c == grid[0].Length || r == grid.Length)
+                {
+                    return;
+                }
+
+                if (grid[r][c] == "0")
+                {
+                    return;
+                }
+
+                grid[r][c] = "0";
+
+                Dfs(r - 1, c);
+                Dfs(r, c - 1);
+                Dfs(r, c + 1);
+                Dfs(r + 1, c);
+
+
+
+            }
+
+            int islands = 0;
+
+            for (int i = 0; i < grid.Length; i++)
+            {
+                for (int j = 0; j < grid[i].Length; j++)
+                {
+                    if (grid[i][j] == "1")
+                    {
+                        Dfs(i, j);
+                        islands++;
+                    }
+                }
+            }
+
+
+            Console.WriteLine(islands);
+
+            return islands;
+        }
+
+
+        public int IslandPerimeter(int[][] grid)
+        {
+
+
+            // int Dfs(int r, int c, int counter)
+            // {
+
+            //     if (r < 0 || c < 0 || r == grid.Length || c == grid[0].Length)
+            //     {
+            //         return counter;
+
+            //     }
+
+            //     if (grid[r][c] == 0)
+            //     {
+            //         return counter;
+            //     }
+
+
+            //     Console.WriteLine($"r is :{r} c is :{c} counter is :{counter}");
+
+
+            //     grid[r][c] = 0;
+
+
+            //     counter++;
+
+            //     var top = Dfs(r - 1, c, counter);
+            //     var left = Dfs(r, c - 1, counter);
+            //     var right = Dfs(r, c + 1, counter);
+            //     var bottom = Dfs(r + 1, c, counter);
+
+            //     int total = top + left + right + bottom;
+            //     Console.WriteLine(total);
+            //     return total;
+
+
+
+
+            // }
+
+            int counter = 0;
+
+            for (int i = 0; i < grid.Length; i++)
+            {
+                for (int j = 0; j < grid[i].Length; j++)
+                {
+                    if (grid[i][j] == 1)
+                    {
+                        counter += 4;
+                        //Console.WriteLine(Dfs(i, j, 0));
+                        if (j > 0)
+                        {
+                            if (grid[i][j - 1] == 1)
+                            {
+                                counter -= 2;
+                            }
+                        }
+
+                        if (i > 0)
+                        {
+                            if (grid[i - 1][j] == 1)
+                            {
+                                counter -= 2;
+                            }
+                        }
+
+                        Console.WriteLine($"The counter is: {counter}");
+
+
+                    }
+                }
+            }
+
+
+            return counter;
+
+
+
+
+
+        }
+
+
+        public int MaxAreaOfIsland(int[][] grid)
+        {
+
+            int Dfs(int r, int c, int counter)
+            {
+
+                if (r < 0 || c < 0 || r == grid.Length || c == grid[0].Length)
+                {
+                    return 0;
+
+                }
+
+                if (grid[r][c] == 0)
+                {
+                    return 0;
+                }
+
+
+                Console.WriteLine($"r is :{r} c is :{c} counter is :{counter}");
+
+
+                grid[r][c] = 0;
+
+
+
+
+                var top = Dfs(r - 1, c, counter + 1);
+                var left = Dfs(r, c - 1, counter + 1);
+                var right = Dfs(r, c + 1, counter + 1);
+                var bottom = Dfs(r + 1, c, counter + 1);
+
+                int total = top + left + right + bottom;
+
+                Console.WriteLine();
+                Console.WriteLine($"top: {top}");
+                Console.WriteLine($"left: {left}");
+                Console.WriteLine($"right: {right}");
+                Console.WriteLine($"bottom: {bottom}");
+                Console.WriteLine($"total: {total}");
+                Console.WriteLine($"total: {total}");
+                Console.WriteLine();
+
+                return total + 1;
+
+
+
+
+            }
+
+            int result = 0;
+
+
+            for (int i = 0; i < grid.Length; i++)
+            {
+                for (int j = 0; j < grid[i].Length; j++)
+                {
+                    if (grid[i][j] == 1)
+                    {
+                        result = Math.Max(result
+                        , Dfs(i, j, 0));
+                        Console.WriteLine("Result at this juncture: " + result);
+
+                    }
+                }
+            }
+
+            return result;
+
+        }
+
+
+        public string[][] Solve(string[][] board)
+        {
+
+            void Dfs(int r, int c)
+            {
+                if (r < 1 || c < 1 || r == board.Length - 1 || c == board[0].Length)
+                {
+                    return;
+                }
+
+                if (board[r - 1][c] != "X" || board[r][c - 1] != "X")
+                {
+                    return;
+                }
+
+                if (board[r][c] == "X")
+                {
+                    return;
+                }
+
+                board[r][c] = "X";
+
+
+                Dfs(r - 1, c);
+                Dfs(r, c - 1);
+                Dfs(r + 1, c);
+                Dfs(r, c + 1);
+            }
+
+            for (int i = 0; i < board.Length; i++)
+            {
+                for (int j = 0; j < board[i].Length; j++)
+                {
+                    if (board[i][j] == "O")
+                    {
+                        Dfs(i, j);
+                    }
+
+                }
+            }
+
+
+            foreach (var pair in board)
+            {
+                Console.WriteLine(string.Join("-", pair));
+            }
+
+            return board;
+        }
+
+
     }
 }

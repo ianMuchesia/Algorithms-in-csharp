@@ -22,6 +22,14 @@ namespace DataStructuresAlgorithms.Graphs
                {"C", new List<string> {"B"}}
             };
 
+             Dictionary<string,List<string>> hashmapList = new Dictionary<string, List<string>>()
+            {
+               {"A", ["B"]},
+               {"B",  ["A", "C"]},
+               {"C",  ["B"]}
+            };
+
+
             return hashmap["A"][0];
         }
 

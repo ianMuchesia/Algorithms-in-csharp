@@ -590,14 +590,14 @@ class BacktrackingSolutions
         IList<string> result = [];
 
         char[] chars = s.ToCharArray();
-
+ 
         var used = new bool[s.Length];
 
         void Dfs(int depth, char[] subset)
         {
             result.Add(new string(subset));
             if (depth >= s.Length)
-            {   
+            {
                 Console.WriteLine();
                 Console.WriteLine("\nThis is the subset on returning: " + string.Join("->", subset));
                 return;
@@ -643,7 +643,7 @@ class BacktrackingSolutions
                 }
 
                 Console.WriteLine();
-                Console.WriteLine("After Backtracking the string: "+string.Join("--", subset)+" we are at depth: "+depth);
+                Console.WriteLine("After Backtracking the string: " + string.Join("--", subset) + " we are at depth: " + depth);
 
 
             }
@@ -670,8 +670,8 @@ class BacktrackingSolutions
 
         void Dfs(int depth, char[] subset)
         {
-             result.Add(new string(subset));
-            
+            result.Add(new string(subset));
+
             if (depth >= s.Length)
             {
 
@@ -720,6 +720,58 @@ class BacktrackingSolutions
         }
 
         return result;
+    }
+
+    public IList<string> LetterCasePermutation3(string s)
+    {
+        IList<string> result = [];
+
+
+        char[] currentCombination = s.ToCharArray();
+
+        void Dfs(int index, char[] currentChars)
+        {
+            //base case if we have processed all characters
+            if (index == s.Length)
+            {
+                result.Add(new string(currentChars));
+                return;
+            }
+
+
+            char originalChar = s[index];
+
+            currentChars[index] = originalChar;
+            Dfs(index + 1, currentChars);
+
+            if (char.IsLetter(originalChar))
+            {
+                if (char.IsUpper(originalChar))
+                {
+                    currentChars[index] =   char.ToLower(originalChar);
+                }
+                else
+                {
+                    currentChars[index] = char.ToUpper(originalChar);
+                }
+
+                Dfs(index + 1, currentChars);
+            }
+        }
+
+        Dfs(0, currentCombination);
+
+        foreach (var arr in result)
+        {
+            Console.WriteLine(arr);
+        }
+
+
+        return result;
+
+
+
+
     }
 
 

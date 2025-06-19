@@ -73,9 +73,6 @@ class Program
 
         // bool result =  adjacencyListGraph.hasEdge("A","B");
 
-        LeetCodeGraph codeGraph = new LeetCodeGraph();
-
-        // int result = codeGraph.FindJudge(3,[[1,3],[2,3]]);
 
         // bool result = codeGraph.ValidPath(10, [[4,3],[1,4],[4,8],[1,7],[6,4],[4,2],[7,4],[4,0],[0,9],[5,4]],5,9);
 
@@ -220,7 +217,19 @@ class Program
 
         var backtracking = new BacktrackingSolutions();
 
-        Console.WriteLine(backtracking.LetterCasePermutation("mQe"));
+        //Console.WriteLine(backtracking.LetterCasePermutation3("mQe"));
+
+
+
+        LeetCodeGraph codeGraph = new LeetCodeGraph();
+
+        //int result = codeGraph.FindJudge2(3, [[1, 3], [2, 3], [3, 1]]);
+
+        // Console.WriteLine(codeGraph.ValidPath2(2, [[0, 1], [1, 2], [2, 0]], 0, 2));
+
+        // Console.WriteLine(codeGraph.MaxAreaOfIsland([[0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0], [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0], [0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0]]));
+
+        Console.WriteLine(codeGraph.Solve([["O","O","O"],["O","O","O"],["O","O","O"]]));
 
 
 
