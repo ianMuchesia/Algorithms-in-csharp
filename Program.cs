@@ -229,7 +229,21 @@ class Program
 
         // Console.WriteLine(codeGraph.MaxAreaOfIsland([[0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0], [0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0], [0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0]]));
 
-        Console.WriteLine(codeGraph.CanVisitAllRooms([[1,3],[3,0,1],[2],[0]]));
+        // Console.WriteLine(codeGraph.CanVisitAllRooms([[1,3],[3,0,1],[2],[0]]));
+
+        var bfsGraph = new LeetCodeBfsGraph();
+
+        // Console.WriteLine(bfsGraph.FloodFill([[0, 0, 0], [0, 0, 0]], 0, 0, 0));
+
+        // Similarly for the Bfs_Matrix call
+        bfsGraph.Bfs_Matrix(3,
+            [[0, 1, 1, 0, 0, 0],
+            [1, 0, 0, 1, 1, 0],
+            [1, 0, 0, 0, 1, 0],
+            [0, 1, 0, 0, 0, 1],
+            [0, 1, 1, 0, 0, 1],
+            [0, 0, 0, 1, 1, 0]]);
+        // Console.WriteLine(bfsMatrixResult);
 
 
 
