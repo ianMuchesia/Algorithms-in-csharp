@@ -236,14 +236,23 @@ class Program
         // Console.WriteLine(bfsGraph.FloodFill([[0, 0, 0], [0, 0, 0]], 0, 0, 0));
 
         // Similarly for the Bfs_Matrix call
-        bfsGraph.Bfs_Matrix(3,
-            [[0, 1, 1, 0, 0, 0],
-            [1, 0, 0, 1, 1, 0],
-            [1, 0, 0, 0, 1, 0],
-            [0, 1, 0, 0, 0, 1],
-            [0, 1, 1, 0, 0, 1],
-            [0, 0, 0, 1, 1, 0]]);
+        // bfsGraph.Bfs_GridTraversal(1,3,
+        //     [[0, 1, 1, 0, 0, 0],
+        //     [1, 0, 0, 1, 1, 0],
+        //     [1, 0, 0, 0, 1, 0],
+        //     [0, 1, 0, 0, 0, 1],
+        //     [0, 1, 1, 0, 0, 1],
+        //     [0, 0, 0, 1, 1, 0]]);
         // Console.WriteLine(bfsMatrixResult);
+        //         Console.WriteLine(bfsGraph.NumIslands([["1", "1", "1", "1", "0"],
+        //   ["1", "1", "0", "1", "0"],
+        //   ["1", "1", "0", "0", "0"],
+        //   ["0", "0", "0", "0", "0"]]));
+
+        Console.WriteLine(bfsGraph.ShortestPathBinaryMatrix([[0,0,0],[1,1,0],[1,1,0]]));
+
+
+
 
 
 
