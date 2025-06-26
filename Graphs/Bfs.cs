@@ -134,58 +134,40 @@ namespace DataStructuresAlgorithms.Graphs
 
             while (queue.Count > 0)
             {
-                counter++;
-                var currentCell = queue.Dequeue();
-                int r = currentCell.r;
-                int c = currentCell.c;
 
-                Console.WriteLine($"  Visiting cell: ({r}, {c})");
+                int levelSize = queue.Count;
 
-
-                //check all 8 neighbours
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i < levelSize; i++)
                 {
-                    int nextR = r + udr[i];
-                    int nextC = c + udc[i];
+                    var currentCell = queue.Dequeue();
+                    int r = currentCell.r;
+                    int c = currentCell.c;
 
-
-                    if (nextR >= 0 && nextR < rows && nextC >= 0 && nextC < cols)
+                    // CHECK IMMEDIATELY
+                    if (r == rows - 1 && c == cols - 1)
                     {
-                        
-                    Console.WriteLine($"This is the value of grid: {grid[nextR][nextC]} and nextR is {nextR} and nextc is {nextC}");
-                        if (nextR == (rows - 1) && nextC == (cols - 1))
-                        {
-                            Console.WriteLine("We are here");
-                            if (grid[nextR][nextC] == 0)
-                            {
-                                return counter + 1;
-                            }
-                            return -1;
-                        }
+                        return counter + 1;
+                    }
 
-                        if (grid[nextR][nextC] == 0 && !visited[nextR, nextC])
+                    // enqueue neighbors
+                    for (int d = 0; d < 8; d++)
+                    {
+                        int nextR = r + udr[d];
+                        int nextC = c + udc[d];
+
+                        if (nextR >= 0 && nextR < rows && nextC >= 0 && nextC < cols &&
+                            grid[nextR][nextC] == 0 && !visited[nextR, nextC])
                         {
-                            Console.WriteLine($"this is our queue now: {string.Join(",", queue)}");
                             visited[nextR, nextC] = true;
                             queue.Enqueue((nextR, nextC));
                         }
-
-
-
                     }
-
-
                 }
-
-
+                Console.WriteLine($"this is the counter before additon: {counter}");
+                counter++;
+                Console.WriteLine($"the queue at this poin is: {string.Join(",", queue)}");
             }
-
             return -1;
-
-
-
-
-
         }
 
         public int NumIslands(string[][] grid)

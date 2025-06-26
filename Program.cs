@@ -249,7 +249,7 @@ class Program
         //   ["1", "1", "0", "0", "0"],
         //   ["0", "0", "0", "0", "0"]]));
 
-        Console.WriteLine(bfsGraph.ShortestPathBinaryMatrix([[0,0,0],[1,1,0],[1,1,0]]));
+        Console.WriteLine(bfsGraph.ShortestPathBinaryMatrix([[0,0,0],[0,1,0],[0,0,0]]));
 
 
 
