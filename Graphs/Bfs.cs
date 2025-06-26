@@ -170,6 +170,129 @@ namespace DataStructuresAlgorithms.Graphs
             return -1;
         }
 
+
+        public int ShortestPathBinaryMatrixPaint(int[][] grid)
+        {
+
+            int[] udr = { 1, 0, -1, 1, -1, -1, 0, 1 };
+            int[] udc = { 1, 1, 1, 0, 0, -1, -1, -1 };
+
+            int rows = grid.Length;
+            int cols = grid[0].Length;
+
+            var queue = new Queue<(int r, int c)>();
+
+            queue.Enqueue((0, 0));
+            grid[0][0] = 1;
+
+            while (queue.Count > 0)
+            {
+                var currentCell = queue.Dequeue();
+
+                int r = currentCell.r;
+                int c = currentCell.c;
+
+                int currentNummber = grid[r][c];
+                Console.WriteLine($"Current Number: {currentNummber}");
+
+
+                for (int i = 0; i < 8; i++)
+                {
+                    int nextR = r + udr[i];
+                    int nextC = c + udc[i];
+
+                    if (nextR >= 0 && nextR < rows && nextC >= 0 && nextC < cols &&
+                          grid[nextR][nextC] == 0)
+                    {
+                        if (nextR == rows - 1 && nextC == cols - 1)
+                        {
+                            return (currentNummber + 1);
+                        }
+                        Console.WriteLine($"current nextR, nextC: {grid[nextR][nextC]}");
+                        grid[nextR][nextC] = currentNummber + 1;
+                        queue.Enqueue((nextR, nextC));
+                    }
+                }
+            }
+
+            return -1;
+
+        }
+
+        public int[][] UpdateMatrix(int[][] mat)
+        {
+            int rows = mat.Length;
+            int cols = mat[0].Length;
+            foreach (var pair in mat)
+            {
+                Console.WriteLine(string.Join(",", pair));
+            }
+
+
+            var queue = new Queue<(int r, int c)>();
+
+            var visited = new bool[rows, cols];
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    if (mat[i][j] == 1)
+                    {
+                        queue.Enqueue((i, j));
+                        visited[i, j] = true;
+                        Bfs();
+
+                    }
+                }
+            }
+
+            void Bfs()
+            {
+                while (queue.Count > 0)
+                {
+                    Console.WriteLine(string.Join(",", queue));
+                    var currentCell = queue.Dequeue();
+                    int r = currentCell.r;
+                    int c = currentCell.c;
+
+                    for (int d = 0; d < 4; d++)
+                    {
+                        int nextR = r + dr[d];
+                        int nextC = c + dc[d];
+
+                        Console.WriteLine($"nextR is {nextR}, nextC is {nextC}");
+                        if (nextR >= 0 && nextR < rows && nextC >= 0 && nextC < cols &&
+                         mat[nextR][nextC] == 0 && mat[r][c] > 1)
+                        {
+                            Console.WriteLine($"second one nextR is {nextR}, nextC is {nextC}");
+                            mat[r][c] = 1;
+
+                        }
+                        if (nextR >= 0 && nextR < rows && nextC >= 0 && nextC < cols &&
+                         mat[nextR][nextC] > 1 && !visited[nextR, nextC])
+                        {
+                            Console.WriteLine($"second one nextR is {nextR}, nextC is {nextC}");
+                            visited[nextR, nextC] = true;
+                            mat[nextR][nextC] = mat[r][c] + 1;
+                            queue.Enqueue((nextR, nextC));
+
+                        }
+                    }
+
+
+                }
+            }
+            Console.WriteLine();
+            foreach (var pair in mat)
+            {
+                Console.WriteLine(string.Join(",", pair));
+            }
+            return mat;
+        }
+
+
+
         public int NumIslands(string[][] grid)
         {
             int rows = grid.Length;
