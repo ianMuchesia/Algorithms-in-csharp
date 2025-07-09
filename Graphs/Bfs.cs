@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Data;
 using System.Diagnostics.Metrics;
 using System.Linq.Expressions;
@@ -118,7 +119,7 @@ namespace DataStructuresAlgorithms.Graphs
         }
 
 
-        public int ShortestPathBinaryMatrix(int[][] grid)
+        public int ShortestPathBinaryMatrix2(int[][] grid)
         {
 
             int[] udr = { 1, 0, -1, 1, -1, -1, 0, 1 };
@@ -171,6 +172,115 @@ namespace DataStructuresAlgorithms.Graphs
                 Console.WriteLine($"the queue at this poin is: {string.Join(",", queue)}");
             }
             return -1;
+        }
+
+        public int NearestExit(char[][] maze, int[] entrance)
+        {
+            int rows = maze.Length;
+            int cols = maze[0].Length;
+
+            var queue = new Queue<(int r, int c)>();
+
+            queue.Enqueue((entrance[0], entrance[1]));
+
+            int result = int.MaxValue;
+            maze[entrance[0]][entrance[1]] = (char)0;
+            while (queue.Count > 0)
+            {
+                var current = queue.Dequeue();
+
+                int r = current.r;
+                int c = current.c;
+
+                int currentNumber = (int)maze[r][c];
+
+                Console.WriteLine($"The current number is {currentNumber}");
+
+                for (int d = 0; d < 4; d++)
+                {
+                    int nextR = r + dr[d];
+                    int nextC = c + dr[c];
+                    if (nextR >= 0 && nextR < rows && nextC >= 0 && nextC < cols && maze[nextR][nextC] == '.')
+                    {
+                        if (nextR == 0 || nextR == rows - 1 || nextC == 0 || nextC == cols - 1)
+                        {
+                            result = Math.Min(currentNumber + 1, result);
+                        }
+
+                        var distance = currentNumber + 1;
+                        maze[nextR][nextC] = (char)distance;
+                        queue.Enqueue((nextR, nextC));
+                    }
+                }
+
+
+            }
+
+            foreach (var row in maze)
+            {
+                Console.WriteLine(string.Join(",", row));
+            }
+
+            return result == int.MaxValue ? -1 : result;
+
+        }
+
+
+        public int ShortestPathBinaryMatrix(int[][] grid)
+        {
+
+            int[] udr = { 1, 0, -1, 1, -1, -1, 0, 1 };
+            int[] udc = { 1, 1, 1, 0, 0, -1, -1, -1 };
+
+            int rows = grid.Length;
+            int cols = grid[0].Length;
+
+            if (grid[0][0] != 0)
+            {
+                return -1;
+            }
+
+
+            var queue = new Queue<(int r, int c)>();
+
+
+            queue.Enqueue((0, 0));
+            grid[0][0] = 1;
+
+            while (queue.Count > 0)
+            {
+                var current = queue.Dequeue();
+
+                int r = current.r;
+                int c = current.c;
+
+                for (int d = 0; d < 8; d++)
+                {
+                    int nextR = r + udr[d];
+                    int nextC = c + udc[d];
+
+                    if (nextR >= 0 && nextR < rows && nextC >= 0 && nextC < cols &&
+                        grid[nextR][nextC] == 0)
+                    {
+
+                        if (nextR == rows - 1 && nextC == cols - 1)
+                        {
+                            return grid[r][c] + 1;
+                        }
+                        grid[nextR][nextC] = grid[r][c] + 1;
+                        queue.Enqueue((nextR, nextC));
+                        Console.WriteLine();
+                        foreach (var row in grid)
+                        {
+                            Console.WriteLine(string.Join(",", row));
+                        }
+
+                    }
+                }
+            }
+            return -1;
+
+
         }
 
 
@@ -734,17 +844,82 @@ namespace DataStructuresAlgorithms.Graphs
 
         public char[][] UpdateBoard(char[][] board, int[] click)
         {
-             int[] udr = { 1, 0, -1, 1, -1, -1, 0, 1 };
+            int[] udr = { 1, 0, -1, 1, -1, -1, 0, 1 };
             int[] udc = { 1, 1, 1, 0, 0, -1, -1, -1 };
             if (board[click[0]][click[1]] == 'M')
             {
                 board[click[0]][click[1]] = 'X';
                 return board;
             }
+
+            foreach (var pair in board)
+            {
+                Console.WriteLine(string.Join(",", pair));
+            }
             int rows = board.Length;
             int cols = board[0].Length;
 
             var queue = new Queue<(int r, int c)>();
+
+            var tempQueue = new Queue<(int r, int c)>();
+
+            queue.Enqueue((click[0], click[1]));
+
+            while (queue.Count > 0)
+            {
+                var current = queue.Dequeue();
+                int r = current.r;
+                int c = current.c;
+
+                bool IsAdjacentMine = false;
+
+                for (int d = 0; d < 8; d++)
+                {
+                    int nextR = r + udr[d];
+                    int nextC = c + udc[d];
+
+                    if (nextR >= 0 && nextR < rows && nextC >= 0 && nextC < cols && board[nextR][nextC] != 'B' && board[nextR][nextC] != 'A')
+                    {
+                        if (board[nextR][nextC] == 'M')
+                        {
+                            IsAdjacentMine = true;
+                            break;
+                        }
+                        else
+                        {
+                            tempQueue.Enqueue((nextR, nextC));
+                        }
+
+                    }
+
+                }
+
+                if (IsAdjacentMine)
+                {
+                    tempQueue.Clear();
+                    if (board[r][c] == 'E')
+                    {
+                        board[r][c] = 'A';
+                    }
+
+
+                }
+                else
+                {
+                    while (tempQueue.Count > 0)
+                    {
+                        queue.Enqueue(tempQueue.Dequeue());
+                    }
+                    board[r][c] = 'B';
+                }
+                // Console.WriteLine("We are here");
+                // Console.WriteLine($"adjacent mine: {IsAdjacentMine}");
+                // Console.WriteLine(string.Join("->", queue));
+
+
+
+            }
+
 
             for (int i = 0; i < rows; i++)
             {
@@ -753,26 +928,53 @@ namespace DataStructuresAlgorithms.Graphs
                     if (board[i][j] == 'M')
                     {
                         queue.Enqueue((i, j));
+                        Bfs();
+
                     }
+
                 }
             }
 
-            while (queue.Count > 0)
+            void Bfs()
             {
-                var current = queue.Dequeue();
-                int r = current.r;
-                int c = current.c;
-
-                for (int d = 0; d < 8; d++)
+                while (queue.Count > 0)
                 {
-                    int nextR = r + udr[d];
-                    int nextC = c + udc[d];
+                    var current = queue.Dequeue();
+                    int r = current.r;
+                    int c = current.c;
+                    for (int d = 0; d < 8; d++)
+                    {
+                        int nextR = r + udr[d];
+                        int nextC = c + udc[d];
 
-                    
+                        if (nextR >= 0 && nextR < rows && nextC >= 0 && nextC < cols && board[nextR][nextC] != 'E' && board[nextR][nextC] != 'M')
+                        {
+                            if (board[nextR][nextC] == 'A')
+                            {
+                                board[nextR][nextC] = '1';
+                            }
+                            else
+                            {
+                                var totalCount = (int)board[nextR][nextC] + 1;
+                                // Console.WriteLine($"{}")
+                                board[nextR][nextC] = (char)totalCount;
+                            }
+
+                        }
+
+
+                    }
+
                 }
-
-
             }
+
+            Console.WriteLine();
+
+            foreach (var pair in board)
+            {
+                Console.WriteLine(string.Join(",", pair));
+            }
+            return board;
         }
 
         public int[][] FloodFill(int[][] image, int sr, int sc, int color)
@@ -850,6 +1052,79 @@ namespace DataStructuresAlgorithms.Graphs
             }
             BreadthFirstSearch();
             return image;
+
+        }
+
+        public int[][] HighestPeak(int[][] isWater)
+        {
+
+            int rows = isWater.Length;
+            int cols = isWater[0].Length;
+
+            var queue = new Queue<(int r, int c)>();
+            var visited = new bool[rows, cols];
+
+            foreach (var pair in isWater)
+            {
+                Console.WriteLine(string.Join(",", pair));
+            }
+            Console.WriteLine();
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    if (isWater[i][j] == 0)
+                    {
+                        isWater[i][j] = 1;
+
+                    }
+                    else if (isWater[i][j] == 1)
+                    {
+                        queue.Enqueue((i, j));
+                        isWater[i][j] = 0;
+                    }
+                }
+            }
+            foreach (var pair in isWater)
+            {
+                Console.WriteLine(string.Join(",", pair));
+            }
+            Console.WriteLine();
+
+
+
+            while (queue.Count > 0)
+            {
+                var current = queue.Dequeue();
+                int r = current.r;
+                int c = current.c;
+
+                int currentNumber = isWater[r][c];
+
+                for (int d = 0; d < 4; d++)
+                {
+                    int nextR = r + dr[d];
+                    int nextC = c + dc[d];
+
+                    if (nextR < rows && nextR >= 0 && nextC < cols && nextC >= 0 && !visited[nextR, nextC] && isWater[nextR][nextC] != 0)
+                    {
+
+                        isWater[nextR][nextC] = currentNumber + 1;
+                        queue.Enqueue((nextR, nextC));
+                        visited[nextR, nextC] = true;
+
+
+                    }
+                }
+            }
+
+            foreach (var pair in isWater)
+            {
+                Console.WriteLine(string.Join(",", pair));
+            }
+
+            return isWater;
 
         }
     }
