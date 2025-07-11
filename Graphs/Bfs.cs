@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics.Metrics;
 using System.Linq.Expressions;
+using System.Security.Cryptography;
 using Microsoft.VisualBasic;
 
 namespace DataStructuresAlgorithms.Graphs
@@ -1127,5 +1128,323 @@ namespace DataStructuresAlgorithms.Graphs
             return isWater;
 
         }
+
+        public int ShortestBridge(int[][] grid)
+        {
+
+            int rows = grid.Length;
+            int cols = rows;
+
+            var queue = new Queue<(int r, int c)>();
+
+            var visited = new bool[rows, cols];
+
+            var firstIslandVisited = false;
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    if (grid[i][j] == 1 && !visited[i, j])
+                    {
+                        firstIslandVisited = true;
+                        queue.Enqueue((i, j));
+                        FirstIslandBfs();
+                    }
+                    else if (firstIslandVisited && grid[i][j] == 1 && !visited[i, j])
+                    {
+
+                    }
+
+                }
+            }
+
+
+            void FirstIslandBfs()
+            {
+                while (queue.Count > 0)
+                {
+                    var current = queue.Dequeue();
+
+                    int r = current.r;
+                    int c = current.c;
+
+                    for (int d = 0; d < 4; d++)
+                    {
+                        int nextR = r + dr[d];
+                        int nextC = c + dc[d];
+
+                        if (nextR < rows && nextR >= 0 && nextC < cols && nextC >= 0 && grid[nextR][nextC] == 1 && !visited[nextR, nextC])
+                        {
+                            visited[nextR, nextC] = true;
+                            queue.Enqueue((nextR, nextC));
+                        }
+                    }
+                }
+
+            }
+
+            void SecondIslandBfs()
+            {
+                while (queue.Count > 0)
+                {
+                    int levelSize = queue.Count;
+
+                    for (int k = 0; k < levelSize; k++)
+                    {
+                        var current = queue.Dequeue();
+                        int r = current.r;
+                        int c = current.c;
+
+                        for (int d = 0; d < 4; d++)
+                        {
+                            int nextR = r + dr[d];
+                            int nextC = c + dc[d];
+
+                            if (nextR < rows && nextR >= 0 && nextC < cols && nextC >= 0)
+                            {
+                                if (grid[nextR][nextC] == 1)
+                                {
+
+                                }
+                                queue.Enqueue((nextR, nextC));
+                            }
+                        }
+                    }
+                }
+
+
+            }
+
+            return 1;
+
+        }
+
+        public IList<IList<int>> HighestRankedKItems(int[][] grid, int[] pricing, int[] start, int k)
+        {
+
+            int rows = grid.Length;
+            int cols = grid[0].Length;
+
+            var queue = new Queue<(int r, int c)>();
+
+            queue.Enqueue((start[0], start[1]));
+
+            var visited = new bool[rows, cols];
+
+            IList<IList<int>> result = [];
+
+            visited[start[0], start[1]] = true;
+
+
+
+            while (queue.Count > 0)
+            {
+                int levelSize = queue.Count;
+
+                IList<IList<int>> levelListItems = [];
+
+
+
+                for (int m = 0; m < levelSize; m++)
+                {
+                    var current = queue.Dequeue();
+                    var r = current.r;
+                    var c = current.c;
+
+                    var currentNumber = grid[r][c];
+                    if (currentNumber >= pricing[0] && currentNumber <= pricing[1])
+                    {
+                        Console.WriteLine($"The current number is: {currentNumber}");
+
+                        IList<int> ints = [currentNumber, r, c];
+                        levelListItems.Add(ints);
+                    }
+
+                    for (int d = 0; d < 4; d++)
+                    {
+                        int nextR = r + dr[d];
+                        int nextC = c + dc[d];
+
+
+
+
+                        if (nextR < rows && nextR >= 0 && nextC < cols && nextC >= 0 && grid[nextR][nextC] != 0 && !visited[nextR, nextC])
+                        {
+
+                            queue.Enqueue((nextR, nextC));
+                            visited[nextR, nextC] = true;
+
+                        }
+                    }
+                }
+
+                var sorted = levelListItems
+                .OrderBy(item => item[0]) // price
+                .ThenBy(item => item[1])  // row
+                .ThenBy(item => item[2])  // col
+                .ToList();
+
+                foreach (var pair in sorted)
+                {
+                    result.Add([pair[1], pair[2]]);
+
+                }
+
+
+
+                if (result.Count >= k)
+                {
+                    return result.Take(k).ToList();
+                }
+
+
+                Console.WriteLine($"The queue contents: {string.Join(",", queue)}");
+
+
+
+
+            }
+
+
+            foreach (var pair in result)
+            {
+                Console.WriteLine(string.Join(",", pair));
+            }
+
+
+
+            return result;
+        }
+
+        public int NumEnclaves(int[][] grid)
+        {
+            int rows = grid.Length;
+            int cols = grid[0].Length;
+
+            int totalOnes = 0;
+
+            int borderOnes = 0;
+
+            var queue = new Queue<(int r, int c)>();
+
+            var visited = new bool[rows, cols];
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    if (grid[i][j] == 1)
+                    {
+                        if ((i == 0 || i == rows - 1 || j == 0 || j == cols - 1) && !visited[i, j])
+                        {
+                            visited[i, j] = true;
+                            borderOnes++;
+                            queue.Enqueue((i, j));
+                            Bfs();
+                        }
+
+                        totalOnes++;
+                    }
+
+                }
+            }
+
+            void Bfs()
+            {
+                while (queue.Count > 0)
+                {
+                    var (r, c) = queue.Dequeue();
+
+
+                    Console.WriteLine($"These are the border ones: {borderOnes}");
+
+
+                    for (int d = 0; d < 4; d++)
+                    {
+                        int nextR = r + dr[d];
+                        int nextC = c + dc[d];
+
+
+                        if (nextR >= 0 && nextR < rows && nextC >= 0 && nextC < cols && !visited[nextR, nextC] && grid[nextR][nextC] == 1)
+                        {
+                            borderOnes++;
+                            visited[nextR, nextC] = true;
+                            queue.Enqueue((nextR, nextC));
+                        }
+
+                    }
+
+                }
+            }
+
+            Console.WriteLine(totalOnes);
+            Console.WriteLine(borderOnes);
+
+            return totalOnes - borderOnes;
+
+        }
+        public int MaxMoves(int[][] grid)
+        {
+            int[] mr = { -1, 0, 1 };
+
+            int[] mc = { 1, 1, 1 };
+
+            int rows = grid.Length;
+            int cols = grid[0].Length;
+
+
+            var queue = new Queue<(int r, int c, int d)>();
+
+            var visited = new HashSet<(int j, int k)>();
+
+            int result = int.MinValue;
+
+            for (int i = 0; i < rows; i++)
+            {
+                visited.Add((i, 0));
+                queue.Enqueue((i, 0, 0));
+                Bfs();
+                visited.Clear();
+            }
+
+            void Bfs()
+            {
+                while (queue.Count > 0)
+                {
+                    var levelSize = queue.Count;
+
+                    for (int k = 0; k < levelSize; k++)
+                    {
+                        var (r, c, d) = queue.Dequeue();
+
+                        for (int s = 0; s < 3; s++)
+                        {
+                            int nextR = r + mr[s];
+                            int nextC = c + mc[s];
+
+                            Console.WriteLine($"This is nextR: {nextR} and nextC is :{nextC} and cols is {cols}");
+
+                            if (nextR >= 0 && nextR < rows && nextC >= 0 && nextC < cols && (grid[nextR][nextC] > grid[r][c]) && !visited.Contains((nextR, nextC)))
+                            {
+                                queue.Enqueue((nextR, nextC, d + 1));
+                                result = Math.Max(d + 1, result);
+                                visited.Add((nextR, nextC));
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            return result == int.MinValue ? 0: result;
+
+
+
+
+        }
+
+
     }
 }
+
