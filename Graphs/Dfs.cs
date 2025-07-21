@@ -274,6 +274,38 @@ namespace DataStructuresAlgorithms.Graphs
 
         }
 
+        public bool CanVisitAllRooms(IList<IList<int>> rooms)
+        {
+
+            var visited = new HashSet<int>();
+
+
+
+            void Dfs(int room)
+            {
+
+                visited.Add(room);
+
+                for (int i = 0; i < rooms[room].Count; i++)
+                {
+                    if (!visited.Contains(rooms[room][i]))
+                    {
+                        Dfs(rooms[room][i]);
+                    }
+
+                }
+
+                return;
+            }
+
+            Dfs(0);
+
+            return visited.Count == rooms.Count;
+
+
+
+        }
+
 
     }
 }

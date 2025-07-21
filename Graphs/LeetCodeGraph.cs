@@ -674,7 +674,7 @@ namespace DataStructuresAlgorithms.Graphs
             return board;
         }
 
-       public bool CanVisitAllRooms(IList<IList<int>> rooms)
+        public bool CanVisitAllRooms(IList<IList<int>> rooms)
         {
             var visited = new HashSet<int>();
 
@@ -693,6 +693,109 @@ namespace DataStructuresAlgorithms.Graphs
             Dfs(0); // 🔑 Always start from room 0
 
             return visited.Count == rooms.Count;
+        }
+
+        public int NumberOfProvinces(int[][] isConnected)
+        {
+            var n = isConnected.Length;
+            var visited = new bool[n];
+            var adjMatrix = isConnected;
+
+            int provinces = 0;
+
+
+            for (int i = 0; i < n; i++)
+            {
+                if (!visited[i])
+                {
+                    provinces++;
+                    Dfs(i);
+                }
+            }
+
+            void Dfs(int currentCity)
+            {
+                visited[currentCity] = true;
+
+                for (int neighbour = 0; neighbour < n; neighbour++)
+                {
+                    if (adjMatrix[currentCity][neighbour] == 1 && !visited[neighbour])
+                    {
+                        Dfs(neighbour);
+                    }
+                }
+
+
+            }
+
+            return provinces;
+
+
+        }
+
+        public int NumberOfProvinces2(int[][] isConnected)
+        {
+            var n = isConnected.Length;
+            var visited = new bool[n];
+
+            var adjList = new List<List<int>>();
+
+            int provinces = 0;
+
+
+
+
+
+
+
+            for (int i = 0; i < n; i++)
+            {
+                adjList.Add(new List<int>());
+            }
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (isConnected[i][j] == 1)
+                    {
+                        adjList[i].Add(j);
+                    }
+                }
+            }
+
+            for (int i = 0; i < n; i++)
+            {
+                if (!visited[i])
+                {
+                    provinces++;
+                    Dfs(i);
+                }
+            }
+
+
+            void Dfs(int currentCity)
+            {
+                visited[currentCity] = true;
+
+                foreach (int neighbour in adjList[currentCity])
+                {
+                    if (!visited[neighbour])
+                    {
+                        Dfs(neighbour);
+                    }
+                }
+            }
+
+            return provinces;
+
+
+        }
+
+
+        public int FindJudge2(int n, int[][] trust)
+        {
+
         }
 
 
